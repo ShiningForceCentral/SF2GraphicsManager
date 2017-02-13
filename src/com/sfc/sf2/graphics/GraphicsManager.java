@@ -17,52 +17,52 @@ import com.sfc.sf2.palette.PaletteManager;
 public class GraphicsManager {
        
     private PaletteManager paletteManager = new PaletteManager();
-    private byte[] graphics;
+    private Tile[] tiles;
 
-    public byte[] getGraphics() {
-        return graphics;
+    public Tile[] getTiles() {
+        return tiles;
     }
 
-    public void setGraphics(byte[] graphics) {
-        this.graphics = graphics;
+    public void setTiles(Tile[] tiles) {
+        this.tiles = tiles;
     }
        
     public void importDisassembly(String paletteFilePath, String graphicsFilePath, boolean compressed){
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importDisassembly() - Importing disassembly ...");
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportDisassembly() - Importing disassembly ...");
         paletteManager.importDisassembly(paletteFilePath);
-        graphics = DisassemblyManager.importDisassembly(graphicsFilePath, compressed);
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importDisassembly() - Disassembly imported.");
+        tiles = DisassemblyManager.importDisassembly(graphicsFilePath, paletteManager.getPalette(), compressed);
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportDisassembly() - Disassembly imported.");
     }
     
     public void exportDisassembly(String paletteFilePath, String graphicsFilePath, boolean compressed){
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importDisassembly() - Exporting disassembly ...");
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportDisassembly() - Exporting disassembly ...");
         paletteManager.exportDisassembly(paletteFilePath, paletteManager.getPalette());
-        DisassemblyManager.exportDisassembly(graphics, graphicsFilePath);
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importDisassembly() - Disassembly exported.");        
+        DisassemblyManager.exportDisassembly(tiles, graphicsFilePath);
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportDisassembly() - Disassembly exported.");        
     }   
     
     public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed){
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importOriginalRom() - Importing original ROM ...");
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportOriginalRom() - Importing original ROM ...");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
-        graphics = RomManager.importRom(RomManager.ORIGINAL_ROM_TYPE,romFilePath, compressed);
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importOriginalRom() - Original ROM imported.");
+        tiles = RomManager.importRom(RomManager.ORIGINAL_ROM_TYPE,romFilePath, graphicsOffset, graphicsLength, compressed);
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportOriginalRom() - Original ROM imported.");
     }
     
     public void exportRom(String originalRomFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed){
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.exportOriginalRom() - Exporting original ROM ...");
-        RomManager.exportRom(RomManager.ORIGINAL_ROM_TYPE, graphics, originalRomFilePath);
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.exportOriginalRom() - Original ROM exported.");        
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportOriginalRom() - Exporting original ROM ...");
+        RomManager.exportRom(RomManager.ORIGINAL_ROM_TYPE, tiles, originalRomFilePath, graphicsOffset, compressed);
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportOriginalRom() - Original ROM exported.");        
     }      
     
     public void importPng(String filepath){
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importPng() - Importing PNG ...");
-        graphics = PngManager.importPng(filepath);
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.importPng() - PNG imported.");
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportPng() - Importing PNG ...");
+        tiles = PngManager.importPng(filepath);
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportPng() - PNG imported.");
     }
     
     public void exportPng(String filepath){
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.exportPng() - Exporting PNG ...");
-        PngManager.exportPng(graphics, filepath);
-        System.out.println("com.sfc.sf2.vwfont.VWFontManager.exportPng() - PNG exported.");       
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportPng() - Exporting PNG ...");
+        PngManager.exportPng(tiles, filepath);
+        System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportPng() - PNG exported.");       
     }
 }

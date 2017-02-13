@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.graphics.uncompressed;
 
+import com.sfc.sf2.graphics.Tile;
 import java.util.Arrays;
 
 /**
@@ -13,21 +14,21 @@ import java.util.Arrays;
  */
 public class UncompressedGraphicsEncoder {
     
-    private static byte[] newVWFontFileBytes;
+    private static byte[] newGraphicsFileBytes;
     
-    public static void produceVWFont(byte[][] vwfontChars){
-        System.out.println("com.sfc.sf2.vwfont.graphics.VWFontEncoder.produceVWFont() - Producing VWFont ...");
+    public static void produceGraphics(Tile[] tiles){
+        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsEncoder.produceGraphics() - Producing Graphics ...");
         byte[] data = new byte[0];
-        for(byte[] vwfontChar : vwfontChars){
+        for(Tile tile : tiles){
             int previousLength = data.length;
             data = Arrays.copyOf(data,data.length+32);
-            System.arraycopy(vwfontChar, 0, data, previousLength, vwfontChar.length);
+            //System.arraycopy(vwfontChar, 0, data, previousLength, vwfontChar.length);
         }
-        System.out.println("com.sfc.sf2.vwfont.graphics.VWFontEncoder.produceVWFont() - VWFont produced.");
-        newVWFontFileBytes = data;
+        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsEncoder.produceGraphics() - Graphics produced.");
+        newGraphicsFileBytes = data;
     }
     
-    public static byte[] getNewVWFontFileBytes(){
-        return newVWFontFileBytes;
+    public static byte[] getNewGraphicsFileBytes(){
+        return newGraphicsFileBytes;
     }
 }

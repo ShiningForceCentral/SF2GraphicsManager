@@ -14,21 +14,5 @@ import java.util.Arrays;
  */
 public class CompressedGraphicsEncoder {
     
-    private static byte[] newVWFontFileBytes;
-    
-    public static void produceVWFont(byte[][] vwfontChars){
-        System.out.println("com.sfc.sf2.vwfont.graphics.VWFontEncoder.produceVWFont() - Producing VWFont ...");
-        byte[] data = new byte[0];
-        for(byte[] vwfontChar : vwfontChars){
-            int previousLength = data.length;
-            data = Arrays.copyOf(data,data.length+32);
-            System.arraycopy(vwfontChar, 0, data, previousLength, vwfontChar.length);
-        }
-        System.out.println("com.sfc.sf2.vwfont.graphics.VWFontEncoder.produceVWFont() - VWFont produced.");
-        newVWFontFileBytes = data;
-    }
-    
-    public static byte[] getNewVWFontFileBytes(){
-        return newVWFontFileBytes;
-    }
+
 }
