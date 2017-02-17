@@ -19,6 +19,14 @@ public class Tile extends JPanel {
     private int id;
     private Color[] palette;
     private int[][] pixels = new int[8][8];
+
+    public int[][] getPixels() {
+        return pixels;
+    }
+
+    public void setPixels(int[][] pixels) {
+        this.pixels = pixels;
+    }
     
     public int getId() {
         return id;
