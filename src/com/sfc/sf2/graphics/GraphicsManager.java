@@ -44,13 +44,13 @@ public class GraphicsManager {
     public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed){
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportOriginalRom() - Importing original ROM ...");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
-        tiles = RomManager.importRom(RomManager.ORIGINAL_ROM_TYPE,romFilePath, graphicsOffset, graphicsLength, compressed);
+        tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compressed, paletteManager.getPalette());
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportOriginalRom() - Original ROM imported.");
     }
     
     public void exportRom(String originalRomFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed){
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportOriginalRom() - Exporting original ROM ...");
-        RomManager.exportRom(RomManager.ORIGINAL_ROM_TYPE, tiles, originalRomFilePath, graphicsOffset, compressed);
+        RomManager.exportRom(tiles, originalRomFilePath, graphicsOffset, compressed);
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportOriginalRom() - Original ROM exported.");        
     }      
     
@@ -60,9 +60,9 @@ public class GraphicsManager {
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportPng() - PNG imported.");
     }
     
-    public void exportPng(String filepath){
+    public void exportPng(String filepath, String tilesPerRow){
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportPng() - Exporting PNG ...");
-        PngManager.exportPng(tiles, filepath);
+        PngManager.exportPng(tiles, filepath, tilesPerRow);
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerexportPng() - PNG exported.");       
     }
 }

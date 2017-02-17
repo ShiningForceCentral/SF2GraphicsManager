@@ -6,6 +6,7 @@
 package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
+import com.sfc.sf2.graphics.layout.DefaultLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -68,35 +69,15 @@ public class PngManager {
         return tiles;                
     }
     
-    public static void exportPng(Tile[] tiles, String filepath){
+    public static void exportPng(Tile[] tiles, String filepath, String tilesPerRow){
         try {
-            System.out.println("com.sfc.sf2.graphics.io.PngManager.exportPng() - Exporting PNG files ...");
-            /*
-            for(int i = 0;i<graphicsChars.length;i++){
-                String index = String.format("%02d", i);
-                System.out.println("Char "+i+" : ");
-                int width = graphicsChars[i][1];
-                System.out.println("Width = "+width);
-                BufferedImage bi = new BufferedImage(width+3,15,BufferedImage.TYPE_BYTE_BINARY);
-                for(int j = 0 ; j<15 ; j++){
-                    ByteBuffer bb = ByteBuffer.allocate(2);
-                    bb.order(ByteOrder.BIG_ENDIAN);
-                    bb.put(graphicsChars[i][2+j*2]);
-                    bb.put(graphicsChars[i][2+j*2+1]);
-                    short shortVal = bb.getShort(0);
-                    System.out.println("\t" + String.format("%016d", Long.parseLong(Integer.toBinaryString(0xFFFF & shortVal))));
-                    for(int k=0;k<width+3;k++){
-                        if(((shortVal<<k)&0x8000)!=0){
-                            bi.setRGB(k, j, 0xFFFFFF);
-                        }
-                    }
-                }
-                File outputfile = new File(filepath + System.getProperty("file.separator") + CHARACTER_FILENAME.replace("XX.png", index+".png"));
-                ImageIO.write(bi, "png", outputfile);                
-                System.out.println("");
-            }
-            System.out.println("com.sfc.sf2.graphics.io.PngManager.exportPng() - PNG files exported.");
-            */
+            System.out.println("com.sfc.sf2.graphics.io.PngManager.exportPng() - Exporting PNG file ...");
+            int imageTileWidth = Integer.parseInt(tilesPerRow,10);
+            BufferedImage image = DefaultLayout.buildImage(tiles, imageTileWidth);
+            File outputfile = new File(filepath);
+            System.out.println("File path : "+outputfile.getAbsolutePath());
+            ImageIO.write(image, "png", outputfile);
+            System.out.println("com.sfc.sf2.graphics.io.PngManager.exportPng() - PNG file exported.");
         } catch (Exception ex) {
             Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -8,6 +8,7 @@ package com.sfc.sf2.graphics.io;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,28 +27,24 @@ import java.util.logging.Logger;
  */
 public class RomManager {
     
-    public static final int ORIGINAL_ROM_TYPE = 0;
-    public static final int CARAVAN_ROM_TYPE = 1;
-    
-    private static final int[][] VWFONT_OFFSETS = {   {0x29002,0x29A02},
-                                                            {0x29002,0x29A02}
-                                                        };
-    
     private static File romFile;  
     private static byte[] romData;
     
-    public static Tile[] importRom(int romType, String romFilePath, String graphicsOffset, String graphicsLength, boolean compressed){
+    public static Tile[] importRom(String romFilePath, String graphicsOffset, String graphicsLength, boolean compressed, Color[] palette){
         System.out.println("com.sfc.sf2.graphics.io.RomManager.importRom() - Importing ROM ...");
         RomManager.openFile(romFilePath);
-        Tile[] tiles = RomManager.parseGraphics(romType);        
+        int offset = Integer.parseInt(graphicsOffset,16);
+        int length = Integer.parseInt(graphicsLength);
+        Tile[] tiles = RomManager.parseGraphics(offset,length,compressed, palette);        
         System.out.println("com.sfc.sf2.graphics.io.RomManager.importRom() - ROM imported.");
         return tiles;
     }
     
-    public static void exportRom(int romType, Tile[] tiles, String romFilePath, String graphicsOffset, boolean compressed){
+    public static void exportRom(Tile[] tiles, String romFilePath, String graphicsOffset, boolean compressed){
         System.out.println("com.sfc.sf2.graphics.io.RomManager.exportRom() - Exporting ROM ...");
         RomManager.produceGraphics(tiles);
-        RomManager.writeFile(romType, romFilePath);
+        int offset = Integer.parseInt(graphicsOffset,16);
+        RomManager.writeFile(romFilePath, offset);
         System.out.println("com.sfc.sf2.graphics.io.RomManager.exportRom() - ROM exported.");        
     }    
     
@@ -62,11 +59,10 @@ public class RomManager {
         }
     }
     
-    private static Tile[] parseGraphics(int romType){
+    private static Tile[] parseGraphics(int graphicsOffset, int graphicsLength, boolean compressed, Color[] palette){
         System.out.println("com.sfc.sf2.graphics.io.RomManager.parseGraphics() - Parsing Graphics ...");
-        Tile[] tiles = null;
-        //byte[] data = Arrays.copyOfRange(romData,VWFONT_OFFSETS[romType][0],VWFONT_OFFSETS[romType][1]);        
-        //byte[][] graphicsChars = UncompressedGraphicsDecoder.parseVWFont(data);
+        byte[] data = Arrays.copyOfRange(romData,graphicsOffset,graphicsOffset+graphicsLength);        
+        Tile[] tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
         System.out.println("com.sfc.sf2.graphics.io.RomManager.parseGraphics() - Graphics parsed.");
         return tiles;
     }
@@ -77,14 +73,14 @@ public class RomManager {
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Graphics produced.");
     }    
   
-    private static void writeFile(int romType, String romFilePath){
+    private static void writeFile(String romFilePath, int offset){
         try {
             System.out.println("com.sfc.sf2.graphics.io.RomManager.writeFile() - Writing file ...");
             romFile = new File(romFilePath);
             Path romPath = Paths.get(romFile.getAbsolutePath());
             romData = Files.readAllBytes(romPath);
-            byte[] newVWFontFileBytes = UncompressedGraphicsEncoder.getNewGraphicsFileBytes();
-            System.arraycopy(newVWFontFileBytes, 0, romData, VWFONT_OFFSETS[romType][0], newVWFontFileBytes.length);
+            byte[] newGraphicsFileBytes = UncompressedGraphicsEncoder.getNewGraphicsFileBytes();
+            System.arraycopy(newGraphicsFileBytes, 0, romData, offset, newGraphicsFileBytes.length);
             Files.write(romPath,romData);
             System.out.println(romData.length + " bytes into " + romFilePath);  
             System.out.println("com.sfc.sf2.graphics.io.RomManager.writeFile() - File written.");

@@ -6,9 +6,12 @@
 package com.sfc.sf2.graphics.layout;
 
 import com.sfc.sf2.graphics.Tile;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
@@ -29,12 +32,18 @@ public class DefaultLayout extends JPanel {
     }
     
     public BufferedImage buildImage(){
-        
+        BufferedImage image = buildImage(this.tiles,this.tilesPerRow);
+        setSize(image.getWidth(), image.getHeight());
+        return image;
+    }
+    
+    public static BufferedImage buildImage(Tile[] tiles, int tilesPerRow){
         int imageHeight = (tiles.length/tilesPerRow)*8;
         if(tiles.length%tilesPerRow!=0){
             imageHeight+=8;
         }
-        BufferedImage image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_INT_RGB);
+        IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
+        BufferedImage image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_INDEXED, icm);
         Graphics graphics = image.getGraphics();
         int i=0;
         int j=0;
@@ -46,8 +55,20 @@ public class DefaultLayout extends JPanel {
             j=0;
             i++;
         }
-        setSize(image.getWidth(), image.getHeight());
         return image;
+    }
+    
+    private static IndexColorModel buildIndexColorModel(Color[] colors){
+        byte[] reds = new byte[16];
+        byte[] greens = new byte[16];
+        byte[] blues = new byte[16];
+        for(int i=0;i<16;i++){
+            reds[i] = (byte)colors[i].getRed();
+            greens[i] = (byte)colors[i].getGreen();
+            blues[i] = (byte)colors[i].getBlue();
+        }
+        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues);
+        return icm;
     }
     
     @Override
