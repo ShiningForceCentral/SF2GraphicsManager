@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  */
 public class DefaultLayout extends JPanel {
     
-    private static final int DEFAULT_TILES_PER_ROW = 2;
+    private static final int DEFAULT_TILES_PER_ROW = 32;
     
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
     private Tile[] tiles;

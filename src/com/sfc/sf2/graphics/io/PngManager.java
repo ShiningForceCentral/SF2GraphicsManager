@@ -68,6 +68,7 @@ public class PngManager {
                                     for(int c=0;c<16;c++){
                                         if(color.equals(palette[c])){
                                             tile.setPixel(i, j, c);
+                                            break;
                                         }
                                     }
                                 }

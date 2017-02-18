@@ -3,6 +3,8 @@ nbproject/private/*
 build/*
 /dist/
 
+*.png
+
 *.class
 
 # Mobile Tools for Java (J2ME)

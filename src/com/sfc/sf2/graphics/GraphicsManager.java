@@ -27,7 +27,7 @@ public class GraphicsManager {
         this.tiles = tiles;
     }
        
-    public void importDisassembly(String paletteFilePath, String graphicsFilePath, boolean compressed){
+    public void importDisassembly(String paletteFilePath, String graphicsFilePath, boolean compressed, String tileWidth){
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportDisassembly() - Importing disassembly ...");
         paletteManager.importDisassembly(paletteFilePath);
         tiles = DisassemblyManager.importDisassembly(graphicsFilePath, paletteManager.getPalette(), compressed);
@@ -41,7 +41,7 @@ public class GraphicsManager {
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportDisassembly() - Disassembly exported.");        
     }   
     
-    public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed){
+    public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed, String tileWidth){
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportOriginalRom() - Importing original ROM ...");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
         tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compressed, paletteManager.getPalette());
@@ -57,6 +57,7 @@ public class GraphicsManager {
     public void importPng(String filepath){
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportPng() - Importing PNG ...");
         tiles = PngManager.importPng(filepath);
+        paletteManager.setPalette(tiles[0].getPalette());
         System.out.println("com.sfc.sf2.graphics.GraphicsManagerimportPng() - PNG imported.");
     }
     
