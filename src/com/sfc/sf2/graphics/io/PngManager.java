@@ -7,7 +7,11 @@ package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.layout.DefaultLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.IndexColorModel;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,42 +35,77 @@ public class PngManager {
     
     private static String CHARACTER_FILENAME = "symbolXX.png";
     
-    public static Tile[] importPng(String basepath){
+    public static Tile[] importPng(String filepath){
         System.out.println("com.sfc.sf2.graphics.io.PngManager.importPng() - Importing PNG files ...");
-        byte[][] graphicsChars = new byte[0][];
         Tile[] tiles = null;
         try{
-            for(int i=0;i<100;i++){
-                String index = String.format("%02d", i);
-                Path path = Paths.get(basepath + CHARACTER_FILENAME.replace("XX.png", index+".png"));
-                System.out.println("File "+path.toString()+" : ");
-                BufferedImage img = ImageIO.read(path.toFile());
-                byte[] graphicsChar = new byte[32];
-                short width = (short)(img.getWidth() - 3);
-                System.out.println("Width = "+width);
-                graphicsChar[0] = (byte) ((width >> 8) & 0xff);
-                graphicsChar[1] = (byte) (width & 0xff);
-                for(int j=0;j<15;j++){
-                    short row = 0;
-                    for(int k=0;k<width+3;k++){
-                        if(img.getRGB(k, j)==-1){
-                            row = (short)(row | (0x8000 >> k));
+            Path path = Paths.get(filepath);
+            BufferedImage img = ImageIO.read(path.toFile());
+            ColorModel cm = img.getColorModel();
+            if(!(cm instanceof IndexColorModel)){
+                System.out.println("PNG FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
+            }else{
+                IndexColorModel icm = (IndexColorModel) cm;
+                Color[] palette = buildColors(icm);
+                Graphics g = img.getGraphics();
+                
+                int imageWidth = img.getWidth();
+                int imageHeight = img.getHeight();
+                if(imageWidth%8!=0 || imageHeight%8!=0){
+                    System.out.println("PNG FORMAT WARNING : DIMENSIONS ARE NOT MULTIPLES OF 8. (8 pixels per tile)");
+                }else{
+                    tiles = new Tile[(imageWidth/8)*(imageHeight/8)];
+                    int tileId = 0;
+                    for(int y=0;y<imageHeight;y+=8){
+                        for(int x=0;x<imageWidth;x+=8){
+                            System.out.println("Building tile from coordinates "+x+":"+y);
+                            Tile tile = new Tile();
+                            tile.setId(tileId);
+                            tile.setPalette(palette);
+                            for(int j=0;j<8;j++){
+                                for(int i=0;i<8;i++){
+                                    Color color = new Color(img.getRGB(x+i,y+j));
+                                    for(int c=0;c<16;c++){
+                                        if(color.equals(palette[c])){
+                                            tile.setPixel(i, j, c);
+                                        }
+                                    }
+                                }
+                            }
+                            System.out.println(tile);
+                            tiles[tileId] = tile;   
+                            tileId++;
                         }
                     }
-                    System.out.println("\t" + String.format("%016d", Long.parseLong(Integer.toBinaryString(0xFFFF & row))));
-                    graphicsChar[2+j*2] = (byte) ((row >> 8) & 0xff);
-                    graphicsChar[2+j*2+1] = (byte) (row & 0xff);                    
                 }
-                graphicsChars = Arrays.copyOf(graphicsChars, graphicsChars.length + 1);
-                graphicsChars[graphicsChars.length-1] = graphicsChar;
+                
+
+                
+                
             }
-        }catch(IOException e){
-            System.out.println("No more character files to parse.");
         }catch(Exception e){
-             System.err.println("com.sfc.sf2.text.io.DisassemblyManager.parseTextbank() - Error while parsing character data : "+e);
+             System.err.println("com.sfc.sf2.graphics.io.PngManager.importPng() - Error while parsing PNG data : "+e);
+             e.printStackTrace();
         }        
         System.out.println("com.sfc.sf2.graphics.io.PngManager.importPng() - PNG files imported.");        
         return tiles;                
+    }
+    
+    private static Color[] buildColors(IndexColorModel icm){
+        Color[] colors = new Color[16];
+        if(icm.getMapSize()>16){
+            System.out.println("com.sfc.sf2.graphics.io.PngManager.buildColors() - PNG FORMAT HAS MORE THAN 16 INDEXED COLORS : "+icm.getMapSize());
+        }
+        byte[] reds = new byte[icm.getMapSize()];
+        byte[] greens = new byte[icm.getMapSize()];
+        byte[] blues = new byte[icm.getMapSize()];
+        icm.getReds(reds);
+        icm.getGreens(greens);
+        icm.getBlues(blues);
+        for(int i=0;i<16;i++){
+            colors[i] = new Color((int)(reds[i]&0xff),(int)(greens[i]&0xff),(int)(blues[i]&0xff));
+        }
+        return colors;
     }
     
     public static void exportPng(Tile[] tiles, String filepath, String tilesPerRow){

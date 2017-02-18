@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  */
 public class DefaultLayout extends JPanel {
     
-    private static int DEFAULT_TILES_PER_ROW = 32;
+    private static final int DEFAULT_TILES_PER_ROW = 2;
     
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
     private Tile[] tiles;
@@ -43,7 +43,7 @@ public class DefaultLayout extends JPanel {
             imageHeight+=8;
         }
         IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
-        BufferedImage image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_INDEXED, icm);
+        BufferedImage image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_BINARY, icm);
         Graphics graphics = image.getGraphics();
         int i=0;
         int j=0;

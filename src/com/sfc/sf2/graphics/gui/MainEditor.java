@@ -978,13 +978,23 @@ public class MainEditor extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         graphicsManager.importPng(jTextField11.getText());
+        jPanel2.removeAll();
+        Tile[] tiles = graphicsManager.getTiles();        
+        jPanel2.setLayout(new GridLayout(1,1));
+        DefaultLayout defaultLayout = new DefaultLayout();
+        //defaultLayout.setTilesPerRow(2);
+        defaultLayout.setTiles(tiles);
+        jPanel2.add(defaultLayout);
+        jPanel2.setSize(defaultLayout.getWidth(), defaultLayout.getHeight());
+        jPanel2.revalidate();
+        jPanel2.repaint();  
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         int returnVal = jFileChooser1.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = jFileChooser1.getSelectedFile();
-            jTextField11.setText(file.getAbsolutePath()+System.getProperty("file.separator"));
+            jTextField11.setText(file.getAbsolutePath());
         }
     }//GEN-LAST:event_jButton17ActionPerformed
 
