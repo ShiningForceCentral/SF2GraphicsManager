@@ -35,6 +35,16 @@ public class PngManager {
     
     private static String CHARACTER_FILENAME = "symbolXX.png";
     
+    private static int importedPngTileWidth = 32;
+
+    public static int getImportedPngTileWidth() {
+        return importedPngTileWidth;
+    }
+
+    public static void setImportedPngTileWidth(int importedPngTileWidth) {
+        PngManager.importedPngTileWidth = importedPngTileWidth;
+    }
+    
     public static Tile[] importPng(String filepath){
         System.out.println("com.sfc.sf2.graphics.io.PngManager.importPng() - Importing PNG files ...");
         Tile[] tiles = null;
@@ -54,6 +64,7 @@ public class PngManager {
                 if(imageWidth%8!=0 || imageHeight%8!=0){
                     System.out.println("PNG FORMAT WARNING : DIMENSIONS ARE NOT MULTIPLES OF 8. (8 pixels per tile)");
                 }else{
+                    importedPngTileWidth = imageWidth/8;
                     tiles = new Tile[(imageWidth/8)*(imageHeight/8)];
                     int tileId = 0;
                     for(int y=0;y<imageHeight;y+=8){

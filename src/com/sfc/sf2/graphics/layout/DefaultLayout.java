@@ -62,12 +62,18 @@ public class DefaultLayout extends JPanel {
         byte[] reds = new byte[16];
         byte[] greens = new byte[16];
         byte[] blues = new byte[16];
-        for(int i=0;i<16;i++){
+        byte[] alphas = new byte[16];
+        reds[0] = (byte)0xFF;
+        greens[0] = (byte)0xFF;
+        blues[0] = (byte)0xFF;
+        alphas[0] = 0;
+        for(int i=1;i<16;i++){
             reds[i] = (byte)colors[i].getRed();
             greens[i] = (byte)colors[i].getGreen();
             blues[i] = (byte)colors[i].getBlue();
+            alphas[i] = (byte)0xFF;
         }
-        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues);
+        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);
         return icm;
     }
     
