@@ -319,12 +319,13 @@ public class MainEditor extends javax.swing.JFrame {
                     .addComponent(jButton15)
                     .addComponent(jCheckBox1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton18)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel29)))
+                        .addComponent(jLabel29))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -513,7 +514,7 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("<html>Select a PNG File.<br>PNG Format to be defined (color type ...).</html>");
+        jLabel3.setText("<html>Select a PNG File.<br>Required PNG Format : 4BPP / 16 indexed colors.</html>");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -842,7 +843,7 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("<html>Select a new target PNG file.<br/> This export will create a new file.</html>");
+        jLabel9.setText("<html>Select a new target PNG file.<br/> This export will create a new file.<br>Exported PNG Format : 4BPP / 16 indexed colors.</html>");
 
         jLabel28.setText("Tile width : ");
 
@@ -891,7 +892,7 @@ public class MainEditor extends javax.swing.JFrame {
                     .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel28)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("PNG", jPanel14);
@@ -907,7 +908,7 @@ public class MainEditor extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -1038,7 +1039,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField11ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        graphicsManager.importRom(jTextField16.getText(),jTextField20.getText(),jTextField21.getText(),jTextField22.getText(),jTextField23.getText(),jCheckBox3.isSelected(),jTextField30.getText());
+        graphicsManager.importRom(jTextField16.getText(),jTextField20.getText(),jTextField21.getText(),jTextField22.getText(),jTextField23.getText(),jCheckBox3.isSelected());
         jPanel2.removeAll();
         Tile[] tiles = graphicsManager.getTiles();        
         jPanel2.setLayout(new GridLayout(1,1));
@@ -1065,7 +1066,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField16ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        graphicsManager.importDisassembly(jTextField8.getText(),jTextField9.getText(),jCheckBox1.isSelected(),jTextField29.getText());
+        graphicsManager.importDisassembly(jTextField8.getText(),jTextField9.getText(),jCheckBox1.isSelected());
         jPanel2.removeAll();
         Tile[] tiles = graphicsManager.getTiles();        
         jPanel2.setLayout(new GridLayout(1,1));
