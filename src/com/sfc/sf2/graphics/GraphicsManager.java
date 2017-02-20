@@ -52,7 +52,7 @@ public class GraphicsManager {
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importOriginalRom() - Original ROM imported.");
     }
     
-    public void exportRom(String originalRomFilePath, String graphicsOffset, String graphicsLength, boolean compressed){
+    public void exportRom(String originalRomFilePath, String graphicsOffset, boolean compressed){
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportOriginalRom() - Exporting original ROM ...");
         RomManager.exportRom(tiles, originalRomFilePath, graphicsOffset, compressed);
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportOriginalRom() - Original ROM exported.");        
