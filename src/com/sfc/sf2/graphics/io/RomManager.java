@@ -6,6 +6,7 @@
 package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
+import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
 import java.awt.Color;
@@ -27,20 +28,24 @@ import java.util.logging.Logger;
  */
 public class RomManager {
     
+    private static final int COMPRESSION_NONE = 0;
+    private static final int COMPRESSION_BASIC = 1;
+    private static final int COMPRESSION_STACK = 2;
+    
     private static File romFile;  
     private static byte[] romData;
     
-    public static Tile[] importRom(String romFilePath, String graphicsOffset, String graphicsLength, boolean compressed, Color[] palette){
+    public static Tile[] importRom(String romFilePath, String graphicsOffset, String graphicsLength, int compression, Color[] palette){
         System.out.println("com.sfc.sf2.graphics.io.RomManager.importRom() - Importing ROM ...");
         RomManager.openFile(romFilePath);
         int offset = Integer.parseInt(graphicsOffset,16);
         int length = Integer.parseInt(graphicsLength);
-        Tile[] tiles = RomManager.parseGraphics(offset,length,compressed, palette);        
+        Tile[] tiles = RomManager.parseGraphics(offset,length,compression, palette);        
         System.out.println("com.sfc.sf2.graphics.io.RomManager.importRom() - ROM imported.");
         return tiles;
     }
     
-    public static void exportRom(Tile[] tiles, String romFilePath, String graphicsOffset, boolean compressed){
+    public static void exportRom(Tile[] tiles, String romFilePath, String graphicsOffset, int compression){
         System.out.println("com.sfc.sf2.graphics.io.RomManager.exportRom() - Exporting ROM ...");
         RomManager.produceGraphics(tiles);
         int offset = Integer.parseInt(graphicsOffset,16);
@@ -59,10 +64,19 @@ public class RomManager {
         }
     }
     
-    private static Tile[] parseGraphics(int graphicsOffset, int graphicsLength, boolean compressed, Color[] palette){
+    private static Tile[] parseGraphics(int graphicsOffset, int graphicsLength, int compression, Color[] palette){
         System.out.println("com.sfc.sf2.graphics.io.RomManager.parseGraphics() - Parsing Graphics ...");
         byte[] data = Arrays.copyOfRange(romData,graphicsOffset,graphicsOffset+graphicsLength);        
-        Tile[] tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
+        Tile[] tiles = null;
+        switch(compression){
+            case COMPRESSION_NONE:
+                tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
+                break;
+            case COMPRESSION_BASIC:
+                tiles = BasicGraphicsDecoder.decodeBasicGraphics(data, palette);
+                break;
+
+        }
         System.out.println("com.sfc.sf2.graphics.io.RomManager.parseGraphics() - Graphics parsed.");
         return tiles;
     }

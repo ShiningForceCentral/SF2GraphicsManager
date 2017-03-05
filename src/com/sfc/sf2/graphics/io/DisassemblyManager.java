@@ -6,6 +6,7 @@
 package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
+import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
 import java.awt.Color;
@@ -22,10 +23,13 @@ import java.util.logging.Logger;
  */
 public class DisassemblyManager {
     
+    private static final int COMPRESSION_NONE = 0;
+    private static final int COMPRESSION_BASIC = 1;
+    private static final int COMPRESSION_STACK = 2;
     
-    public static Tile[] importDisassembly(String filePath, Color[] palette, boolean compressed){
+    public static Tile[] importDisassembly(String filePath, Color[] palette, int compression){
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.importDisassembly() - Importing disassembly ...");
-        Tile[] tiles = DisassemblyManager.parseGraphics(filePath, palette, compressed);        
+        Tile[] tiles = DisassemblyManager.parseGraphics(filePath, palette, compression);        
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.importDisassembly() - Disassembly imported.");
         return tiles;
     }
@@ -37,13 +41,21 @@ public class DisassemblyManager {
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.exportDisassembly() - Disassembly exported.");        
     }    
     
-    private static Tile[] parseGraphics(String filePath, Color[] palette, boolean compressed){
+    private static Tile[] parseGraphics(String filePath, Color[] palette, int compression){
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.parseGraphics() - Parsing graphics ...");
         Tile[] tiles = null;       
         try{
             Path path = Paths.get(filePath);
             byte[] data = Files.readAllBytes(path);
-            tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
+            switch(compression){
+                case COMPRESSION_NONE:
+                    tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
+                    break;
+                case COMPRESSION_BASIC:
+                    tiles = BasicGraphicsDecoder.decodeBasicGraphics(data, palette);
+                    break;
+                
+            }
         }catch(Exception e){
              System.err.println("com.sfc.sf2.graphics.io.DisassemblyManager.parseGraphics() - Error while parsing graphics data : "+e);
         } 

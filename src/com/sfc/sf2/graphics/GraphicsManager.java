@@ -28,33 +28,33 @@ public class GraphicsManager {
         this.tiles = tiles;
     }
        
-    public void importDisassembly(String paletteFilePath, String graphicsFilePath, boolean compressed){
+    public void importDisassembly(String paletteFilePath, String graphicsFilePath, int compression){
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Importing disassembly ...");
         paletteManager.importDisassembly(paletteFilePath);
         Color[] palette = paletteManager.getPalette();
         palette[0] = new Color(255, 255, 255, 0);
-        tiles = DisassemblyManager.importDisassembly(graphicsFilePath, palette, compressed);
+        tiles = DisassemblyManager.importDisassembly(graphicsFilePath, palette, compression);
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Disassembly imported.");
     }
     
-    public void exportDisassembly(String graphicsFilePath, boolean compressed){
+    public void exportDisassembly(String graphicsFilePath, int compression){
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Exporting disassembly ...");
         DisassemblyManager.exportDisassembly(tiles, graphicsFilePath);
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Disassembly exported.");        
     }   
     
-    public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, boolean compressed){
+    public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, int compression){
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importOriginalRom() - Importing original ROM ...");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
         Color[] palette = paletteManager.getPalette();
         palette[0] = new Color(255, 255, 255, 0);
-        tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compressed, palette);
+        tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compression, palette);
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importOriginalRom() - Original ROM imported.");
     }
     
-    public void exportRom(String originalRomFilePath, String graphicsOffset, boolean compressed){
+    public void exportRom(String originalRomFilePath, String graphicsOffset, int compression){
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportOriginalRom() - Exporting original ROM ...");
-        RomManager.exportRom(tiles, originalRomFilePath, graphicsOffset, compressed);
+        RomManager.exportRom(tiles, originalRomFilePath, graphicsOffset, compression);
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportOriginalRom() - Original ROM exported.");        
     }      
     

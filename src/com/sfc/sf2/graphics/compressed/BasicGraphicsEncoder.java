@@ -6,12 +6,13 @@
 package com.sfc.sf2.graphics.compressed;
 
 import com.sfc.sf2.graphics.uncompressed.*;
+import java.util.Arrays;
 
 /**
  *
  * @author wiz
  */
-public class CompressedGraphicsDecoder {
-
+public class BasicGraphicsEncoder {
     
+
 }
