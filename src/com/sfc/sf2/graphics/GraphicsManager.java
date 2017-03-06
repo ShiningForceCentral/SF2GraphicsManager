@@ -39,7 +39,7 @@ public class GraphicsManager {
     
     public void exportDisassembly(String graphicsFilePath, int compression){
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Exporting disassembly ...");
-        DisassemblyManager.exportDisassembly(tiles, graphicsFilePath);
+        DisassemblyManager.exportDisassembly(tiles, graphicsFilePath, compression);
         System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Disassembly exported.");        
     }   
     

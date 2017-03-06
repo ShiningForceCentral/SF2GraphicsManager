@@ -7,6 +7,7 @@ package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
+import com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
 import java.awt.Color;
@@ -34,10 +35,10 @@ public class DisassemblyManager {
         return tiles;
     }
     
-    public static void exportDisassembly(Tile[] tiles, String filePath){
+    public static void exportDisassembly(Tile[] tiles, String filePath, int compression){
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
-        DisassemblyManager.produceGraphics(tiles);
-        DisassemblyManager.writeFiles(filePath);
+        DisassemblyManager.produceGraphics(tiles, compression);
+        DisassemblyManager.writeFiles(filePath, compression);
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.exportDisassembly() - Disassembly exported.");        
     }    
     
@@ -63,19 +64,34 @@ public class DisassemblyManager {
         return tiles;
     }
 
-    private static void produceGraphics(Tile[] tiles) {
+    private static void produceGraphics(Tile[] tiles, int compression) {
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Producing graphics ...");
-        UncompressedGraphicsEncoder.produceGraphics(tiles);
+        switch(compression){
+            case COMPRESSION_NONE:
+                UncompressedGraphicsEncoder.produceGraphics(tiles);
+                break;
+            case COMPRESSION_BASIC:
+                BasicGraphicsEncoder.produceGraphics(tiles);
+                break;
+        } 
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Graphics produced.");
     }    
   
-    private static void writeFiles(String filePath){
+    private static void writeFiles(String filePath, int compression){
         try {
             System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.writeFiles() - Writing file ...");
             Path graphicsFilePath = Paths.get(filePath);
-            byte[] newVWFontFileBytes = UncompressedGraphicsEncoder.getNewGraphicsFileBytes();
-            Files.write(graphicsFilePath,newVWFontFileBytes);
-            System.out.println(newVWFontFileBytes.length + " bytes into " + graphicsFilePath);
+            byte[] newGraphicsFileBytes = null;
+            switch(compression){
+                case COMPRESSION_NONE:
+                    newGraphicsFileBytes = UncompressedGraphicsEncoder.getNewGraphicsFileBytes(); 
+                    break;
+                case COMPRESSION_BASIC:
+                    newGraphicsFileBytes = BasicGraphicsEncoder.getNewGraphicsFileBytes(); 
+                    break;
+            }
+            Files.write(graphicsFilePath,newGraphicsFileBytes);
+            System.out.println(newGraphicsFileBytes.length + " bytes into " + graphicsFilePath);
             System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.writeFiles() - File written.");
         } catch (IOException ex) {
             Logger.getLogger(DisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);

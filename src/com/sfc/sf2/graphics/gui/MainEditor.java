@@ -646,7 +646,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel18.setText("Original ROM :");
 
-        jTextField18.setText(".\\sf2.bin");
+        jTextField18.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\build\\sf2build-20161020-014342.bin");
         jTextField18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField18ActionPerformed(evt);
@@ -671,7 +671,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel26.setText("Graphics offset : 0x");
 
-        jTextField26.setText("1D8004");
+        jTextField26.setText("C8B40");
         jTextField26.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField26ActionPerformed(evt);
@@ -692,7 +692,7 @@ public class MainEditor extends javax.swing.JFrame {
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField18)
+                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton28))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
