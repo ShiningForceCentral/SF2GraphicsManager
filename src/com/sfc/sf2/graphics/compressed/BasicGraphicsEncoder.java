@@ -90,11 +90,15 @@ public class BasicGraphicsEncoder {
                 while(nextWord.equals(previousWord)){
                     potentialRepeats++;
                     testCursor+=2;
-                    ByteBuffer testbb = ByteBuffer.allocate(2);
-                    testbb.order(ByteOrder.LITTLE_ENDIAN);
-                    testbb.put(input[testCursor+1]);
-                    testbb.put(input[testCursor]);          
-                    nextWord = testbb.getShort(0);
+                    if(testCursor+1<input.length){
+                        ByteBuffer testbb = ByteBuffer.allocate(2);
+                        testbb.order(ByteOrder.LITTLE_ENDIAN);
+                        testbb.put(input[testCursor+1]);
+                        testbb.put(input[testCursor]);          
+                        nextWord = testbb.getShort(0);                        
+                    }else{
+                        break;
+                    }
                 } 
                 System.out.println("Potential repeats = " + potentialRepeats);
             }

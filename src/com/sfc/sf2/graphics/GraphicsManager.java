@@ -16,6 +16,10 @@ import java.awt.Color;
  * @author wiz
  */
 public class GraphicsManager {
+    
+    public static final int COMPRESSION_NONE = 0;
+    public static final int COMPRESSION_BASIC = 1;
+    public static final int COMPRESSION_STACK = 2;    
        
     private PaletteManager paletteManager = new PaletteManager();
     private Tile[] tiles;

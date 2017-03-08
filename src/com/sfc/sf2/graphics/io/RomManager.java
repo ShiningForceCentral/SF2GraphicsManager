@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.graphics.io;
 
+import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder;
@@ -28,10 +29,6 @@ import java.util.logging.Logger;
  * @author wiz
  */
 public class RomManager {
-    
-    private static final int COMPRESSION_NONE = 0;
-    private static final int COMPRESSION_BASIC = 1;
-    private static final int COMPRESSION_STACK = 2;
     
     private static File romFile;  
     private static byte[] romData;
@@ -70,10 +67,10 @@ public class RomManager {
         byte[] data = Arrays.copyOfRange(romData,graphicsOffset,graphicsOffset+graphicsLength);        
         Tile[] tiles = null;
         switch(compression){
-            case COMPRESSION_NONE:
+            case GraphicsManager.COMPRESSION_NONE:
                 tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
                 break;
-            case COMPRESSION_BASIC:
+            case GraphicsManager.COMPRESSION_BASIC:
                 tiles = BasicGraphicsDecoder.decodeBasicGraphics(data, palette);
                 break;
 
@@ -85,10 +82,10 @@ public class RomManager {
     private static void produceGraphics(Tile[] tiles, int compression) {
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Producing Graphics ...");
         switch(compression){
-            case COMPRESSION_NONE:
+            case GraphicsManager.COMPRESSION_NONE:
                 UncompressedGraphicsEncoder.produceGraphics(tiles);
                 break;
-            case COMPRESSION_BASIC:
+            case GraphicsManager.COMPRESSION_BASIC:
                 BasicGraphicsEncoder.produceGraphics(tiles);
                 break;
         }        
@@ -103,10 +100,10 @@ public class RomManager {
             romData = Files.readAllBytes(romPath);
             byte[] newGraphicsFileBytes = null;
             switch(compression){
-                case COMPRESSION_NONE:
+                case GraphicsManager.COMPRESSION_NONE:
                     newGraphicsFileBytes = UncompressedGraphicsEncoder.getNewGraphicsFileBytes(); 
                     break;
-                case COMPRESSION_BASIC:
+                case GraphicsManager.COMPRESSION_BASIC:
                     newGraphicsFileBytes = BasicGraphicsEncoder.getNewGraphicsFileBytes(); 
                     break;
             }

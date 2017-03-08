@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.graphics.io;
 
+import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder;
@@ -23,10 +24,7 @@ import java.util.logging.Logger;
  * @author wiz
  */
 public class DisassemblyManager {
-    
-    private static final int COMPRESSION_NONE = 0;
-    private static final int COMPRESSION_BASIC = 1;
-    private static final int COMPRESSION_STACK = 2;
+
     
     public static Tile[] importDisassembly(String filePath, Color[] palette, int compression){
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.importDisassembly() - Importing disassembly ...");
@@ -49,10 +47,10 @@ public class DisassemblyManager {
             Path path = Paths.get(filePath);
             byte[] data = Files.readAllBytes(path);
             switch(compression){
-                case COMPRESSION_NONE:
+                case GraphicsManager.COMPRESSION_NONE:
                     tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(data, palette);
                     break;
-                case COMPRESSION_BASIC:
+                case GraphicsManager.COMPRESSION_BASIC:
                     tiles = BasicGraphicsDecoder.decodeBasicGraphics(data, palette);
                     break;
                 
@@ -67,10 +65,10 @@ public class DisassemblyManager {
     private static void produceGraphics(Tile[] tiles, int compression) {
         System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Producing graphics ...");
         switch(compression){
-            case COMPRESSION_NONE:
+            case GraphicsManager.COMPRESSION_NONE:
                 UncompressedGraphicsEncoder.produceGraphics(tiles);
                 break;
-            case COMPRESSION_BASIC:
+            case GraphicsManager.COMPRESSION_BASIC:
                 BasicGraphicsEncoder.produceGraphics(tiles);
                 break;
         } 
@@ -83,10 +81,10 @@ public class DisassemblyManager {
             Path graphicsFilePath = Paths.get(filePath);
             byte[] newGraphicsFileBytes = null;
             switch(compression){
-                case COMPRESSION_NONE:
+                case GraphicsManager.COMPRESSION_NONE:
                     newGraphicsFileBytes = UncompressedGraphicsEncoder.getNewGraphicsFileBytes(); 
                     break;
-                case COMPRESSION_BASIC:
+                case GraphicsManager.COMPRESSION_BASIC:
                     newGraphicsFileBytes = BasicGraphicsEncoder.getNewGraphicsFileBytes(); 
                     break;
             }
