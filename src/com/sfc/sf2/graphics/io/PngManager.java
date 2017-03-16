@@ -13,16 +13,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -33,8 +25,6 @@ import javax.imageio.ImageIO;
  */
 public class PngManager {
     
-    private static String CHARACTER_FILENAME = "symbolXX.png";
-    
     private static int importedPngTileWidth = 32;
 
     public static int getImportedPngTileWidth() {
@@ -44,16 +34,18 @@ public class PngManager {
     public static void setImportedPngTileWidth(int importedPngTileWidth) {
         PngManager.importedPngTileWidth = importedPngTileWidth;
     }
+
+    private static final Logger LOG = Logger.getLogger(PngManager.class.getName());
     
     public static Tile[] importPng(String filepath){
-        System.out.println("com.sfc.sf2.graphics.io.PngManager.importPng() - Importing PNG files ...");
+        LOG.entering(LOG.getName(),"importPng");
         Tile[] tiles = null;
         try{
             Path path = Paths.get(filepath);
             BufferedImage img = ImageIO.read(path.toFile());
             ColorModel cm = img.getColorModel();
             if(!(cm instanceof IndexColorModel)){
-                System.out.println("PNG FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
+                LOG.warning("PNG FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
             }else{
                 IndexColorModel icm = (IndexColorModel) cm;
                 Color[] palette = buildColors(icm);
@@ -62,14 +54,14 @@ public class PngManager {
                 int imageWidth = img.getWidth();
                 int imageHeight = img.getHeight();
                 if(imageWidth%8!=0 || imageHeight%8!=0){
-                    System.out.println("PNG FORMAT WARNING : DIMENSIONS ARE NOT MULTIPLES OF 8. (8 pixels per tile)");
+                    LOG.warning("PNG FORMAT WARNING : DIMENSIONS ARE NOT MULTIPLES OF 8. (8 pixels per tile)");
                 }else{
                     importedPngTileWidth = imageWidth/8;
                     tiles = new Tile[(imageWidth/8)*(imageHeight/8)];
                     int tileId = 0;
                     for(int y=0;y<imageHeight;y+=8){
                         for(int x=0;x<imageWidth;x+=8){
-                            System.out.println("Building tile from coordinates "+x+":"+y);
+                            LOG.fine("Building tile from coordinates "+x+":"+y);
                             Tile tile = new Tile();
                             tile.setId(tileId);
                             tile.setPalette(palette);
@@ -84,7 +76,7 @@ public class PngManager {
                                     }
                                 }
                             }
-                            System.out.println(tile);
+                            LOG.finest(tile.toString());
                             tiles[tileId] = tile;   
                             tileId++;
                         }
@@ -96,17 +88,16 @@ public class PngManager {
                 
             }
         }catch(Exception e){
-             System.err.println("com.sfc.sf2.graphics.io.PngManager.importPng() - Error while parsing PNG data : "+e);
-             e.printStackTrace();
+             LOG.throwing(LOG.getName(), "importPng", e);
         }        
-        System.out.println("com.sfc.sf2.graphics.io.PngManager.importPng() - PNG files imported.");        
+        LOG.exiting(LOG.getName(),"importPng");        
         return tiles;                
     }
     
     private static Color[] buildColors(IndexColorModel icm){
         Color[] colors = new Color[16];
         if(icm.getMapSize()>16){
-            System.out.println("com.sfc.sf2.graphics.io.PngManager.buildColors() - PNG FORMAT HAS MORE THAN 16 INDEXED COLORS : "+icm.getMapSize());
+            LOG.warning("com.sfc.sf2.graphics.io.PngManager.buildColors() - PNG FORMAT HAS MORE THAN 16 INDEXED COLORS : "+icm.getMapSize());
         }
         byte[] reds = new byte[icm.getMapSize()];
         byte[] greens = new byte[icm.getMapSize()];
@@ -122,15 +113,15 @@ public class PngManager {
     
     public static void exportPng(Tile[] tiles, String filepath, String tilesPerRow){
         try {
-            System.out.println("com.sfc.sf2.graphics.io.PngManager.exportPng() - Exporting PNG file ...");
+            LOG.entering(LOG.getName(),"exportPng");
             int imageTileWidth = Integer.parseInt(tilesPerRow,10);
             BufferedImage image = DefaultLayout.buildImage(tiles, imageTileWidth);
             File outputfile = new File(filepath);
-            System.out.println("File path : "+outputfile.getAbsolutePath());
+            LOG.fine("File path : "+outputfile.getAbsolutePath());
             ImageIO.write(image, "png", outputfile);
-            System.out.println("com.sfc.sf2.graphics.io.PngManager.exportPng() - PNG file exported.");
+            LOG.exiting(LOG.getName(),"exportPng");
         } catch (Exception ex) {
-            Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.throwing(LOG.getName(),"exportPng", ex);
         }
         
                 

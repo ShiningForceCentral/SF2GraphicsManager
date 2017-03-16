@@ -12,27 +12,19 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
  * @author wiz
  */
 public class BasicGraphicsDecoder {
-    
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(List<Byte> bytes) {
-        char[] hexChars = new char[bytes.size() * 2];
-        for ( int j = 0; j < bytes.size(); j++ ) {
-            int v = bytes.get(j) & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
 
+    private static final Logger LOG = Logger.getLogger(BasicGraphicsDecoder.class.getName());
+    
     public static Tile[] decodeBasicGraphics(byte[] input, Color[] palette){
-        System.out.println("com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder.decodeBasicGraphics() - Decoding basic graphics ...");
-        System.out.println("com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder.decodeBasicGraphics() - Data length = " + input.length + " bytes.");
+        LOG.entering(LOG.getName(),"decodeBasicGraphics");
+        LOG.fine("Data length = " + input.length + " bytes.");
         List<Byte> output = new ArrayList();
         boolean done = false;
         int pointer = 0;
@@ -45,7 +37,7 @@ public class BasicGraphicsDecoder {
                 bbCommand.put(input[pointer]);
                 short commands = bbCommand.getShort(0);
                 pointer+=2;
-                //System.out.println("commands = " + Integer.toHexString(commands&0xFFFF)); 
+                LOG.fine("commands = " + Integer.toHexString(commands&0xFFFF)); 
                 for(int i=0;i<16;i++){
                     if((commands & (1<<15-i)) != 0){
                         // apply repeat
@@ -55,15 +47,15 @@ public class BasicGraphicsDecoder {
                         bbRepeat.put(input[pointer]);          
                         short repeatCommand = bbRepeat.getShort(0); 
                         pointer+=2;
-                        //System.out.println("repeatCommand = " + Integer.toHexString(repeatCommand&0xFFFF)); 
+                        LOG.fine("repeatCommand = " + Integer.toHexString(repeatCommand&0xFFFF)); 
                         if(repeatCommand==0){
                             done = true;
                             break;
                         }else{
                             byte repeats = (byte)(repeatCommand & 0x1F);
                             short wordIndex = (short)((repeatCommand - repeats)>>5);
-                            //System.out.println("pointer = " + pointer);
-                            //System.out.println("repeats = " + Integer.toHexString(repeats&0xFFFF) + ", wordIndex = " + Integer.toHexString(wordIndex&0xFFFF));
+                            LOG.fine("pointer = " + pointer);
+                            LOG.fine("repeats = " + Integer.toHexString(repeats&0xFFFF) + ", wordIndex = " + Integer.toHexString(wordIndex&0xFFFF));
                             if(wordIndex==1){
                                 // repeat last word (4 pixels)
                                 byte firstByte = output.get(output.size()-2);
@@ -81,21 +73,20 @@ public class BasicGraphicsDecoder {
                                     copyPointer+=2;
                                 }
                             }
-                            //System.out.println("output = " + bytesToHex(output));
+                            LOG.fine("output = " + bytesToHex(output));
                         }
                     }else{
                         // copy word
                         output.add(input[pointer]);
                         output.add(input[pointer+1]);
                         pointer+=2;
-                        //System.out.println("output = " + bytesToHex(output));
+                        LOG.fine("output = " + bytesToHex(output));
                     }
                 }
                 
             }
         }catch(Exception e){
-            System.out.println("com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder.decodeBasicGraphics() - Basic graphics decoding failed.");
-            throw e;
+            LOG.throwing(LOG.getName(),"decodeBasicGraphics",e);
         }finally{
             byte[] bytes = new byte[output.size()];
             for(int i=0;i<bytes.length;i++){
@@ -103,8 +94,19 @@ public class BasicGraphicsDecoder {
             }
             tiles = UncompressedGraphicsDecoder.decodeUncompressedGraphics(bytes, palette);
         }
-        System.out.println("com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder.decodeBasicGraphics() - Basic graphics decoded.");
+        LOG.exiting(LOG.getName(),"decodeBasicGraphics");
         return tiles;
+    }    
+    
+    final protected static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(List<Byte> bytes) {
+        char[] hexChars = new char[bytes.size() * 2];
+        for ( int j = 0; j < bytes.size(); j++ ) {
+            int v = bytes.get(j) & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
     }    
     
 }

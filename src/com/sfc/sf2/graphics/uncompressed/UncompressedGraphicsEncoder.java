@@ -6,7 +6,7 @@
 package com.sfc.sf2.graphics.uncompressed;
 
 import com.sfc.sf2.graphics.Tile;
-import java.util.Arrays;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,9 +15,11 @@ import java.util.Arrays;
 public class UncompressedGraphicsEncoder {
     
     private static byte[] newGraphicsFileBytes;
+
+    private static final Logger LOG = Logger.getLogger(UncompressedGraphicsEncoder.class.getName());     
     
     public static void produceGraphics(Tile[] tiles){
-        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsEncoder.produceGraphics() - Producing Graphics ...");
+        LOG.entering(LOG.getName(),"produceGraphics");
         byte[] data = new byte[tiles.length*32];
         for(int i=0;i<tiles.length;i++){
             int[][] pixels = tiles[i].getPixels();
@@ -29,7 +31,7 @@ public class UncompressedGraphicsEncoder {
                 }
             }
         }
-        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsEncoder.produceGraphics() - Graphics produced.");
+        LOG.exiting(LOG.getName(),"produceGraphics");
         newGraphicsFileBytes = data;
     }
     

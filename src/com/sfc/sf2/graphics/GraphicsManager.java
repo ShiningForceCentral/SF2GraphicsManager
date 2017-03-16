@@ -10,12 +10,15 @@ import com.sfc.sf2.graphics.io.PngManager;
 import com.sfc.sf2.graphics.io.RomManager;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
+import java.util.logging.Logger;
 
 /**
  *
  * @author wiz
  */
 public class GraphicsManager {
+    
+    private static final Logger LOG = Logger.getLogger(GraphicsManager.class.getName());
     
     public static final int COMPRESSION_NONE = 0;
     public static final int COMPRESSION_BASIC = 1;
@@ -33,47 +36,52 @@ public class GraphicsManager {
     }
        
     public void importDisassembly(String paletteFilePath, String graphicsFilePath, int compression){
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Importing disassembly ...");
+        LOG.entering(LOG.getName(),"importDisassembly");
+        LOG.info("info");
+        LOG.fine("fine");
+        LOG.finer("finer");
+        LOG.finest("finest");
         paletteManager.importDisassembly(paletteFilePath);
         Color[] palette = paletteManager.getPalette();
         palette[0] = new Color(255, 255, 255, 0);
         tiles = DisassemblyManager.importDisassembly(graphicsFilePath, palette, compression);
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Disassembly imported.");
+        LOG.exiting(LOG.getName(),"importDisassembly");
     }
     
     public void exportDisassembly(String graphicsFilePath, int compression){
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Exporting disassembly ...");
+        LOG.entering(LOG.getName(),"importDisassembly");
         DisassemblyManager.exportDisassembly(tiles, graphicsFilePath, compression);
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importDisassembly() - Disassembly exported.");        
+        LOG.exiting(LOG.getName(),"importDisassembly");        
     }   
     
     public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, int compression){
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importOriginalRom() - Importing original ROM ...");
+        LOG.entering(LOG.getName(),"importOriginalRom");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
         Color[] palette = paletteManager.getPalette();
         palette[0] = new Color(255, 255, 255, 0);
         tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compression, palette);
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importOriginalRom() - Original ROM imported.");
+        LOG.exiting(LOG.getName(),"importOriginalRom");
     }
     
     public void exportRom(String originalRomFilePath, String graphicsOffset, int compression){
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportOriginalRom() - Exporting original ROM ...");
+        LOG.entering(LOG.getName(),"exportOriginalRom");
         RomManager.exportRom(tiles, originalRomFilePath, graphicsOffset, compression);
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportOriginalRom() - Original ROM exported.");        
+        LOG.exiting(LOG.getName(),"exportOriginalRom");        
     }      
     
     public int importPng(String filepath){
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importPng() - Importing PNG ...");
+        LOG.entering(LOG.getName(),"importPng");
         tiles = PngManager.importPng(filepath);
         paletteManager.setPalette(tiles[0].getPalette());
         int tileWidth = PngManager.getImportedPngTileWidth();
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.importPng() - PNG imported.");
+        LOG.exiting(LOG.getName(),"importPng");
         return tileWidth;
     }
     
     public void exportPng(String filepath, String tilesPerRow){
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportPng() - Exporting PNG ...");
+        LOG.entering(LOG.getName(),"exportPng");
         PngManager.exportPng(tiles, filepath, tilesPerRow);
-        System.out.println("com.sfc.sf2.graphics.GraphicsManager.exportPng() - PNG exported.");       
+        LOG.exiting(LOG.getName(),"exportPng");       
     }
+
 }

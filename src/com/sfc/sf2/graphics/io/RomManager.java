@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,38 +29,41 @@ public class RomManager {
     
     private static File romFile;  
     private static byte[] romData;
+
+    private static final Logger LOG = Logger.getLogger(RomManager.class.getName());
     
     public static Tile[] importRom(String romFilePath, String graphicsOffset, String graphicsLength, int compression, Color[] palette){
-        System.out.println("com.sfc.sf2.graphics.io.RomManager.importRom() - Importing ROM ...");
+        LOG.entering(LOG.getName(),"importRom");
         RomManager.openFile(romFilePath);
         int offset = Integer.parseInt(graphicsOffset,16);
         int length = Integer.parseInt(graphicsLength);
         Tile[] tiles = RomManager.parseGraphics(offset,length,compression, palette);        
-        System.out.println("com.sfc.sf2.graphics.io.RomManager.importRom() - ROM imported.");
+        LOG.exiting(LOG.getName(),"importRom");
         return tiles;
     }
     
     public static void exportRom(Tile[] tiles, String romFilePath, String graphicsOffset, int compression){
-        System.out.println("com.sfc.sf2.graphics.io.RomManager.exportRom() - Exporting ROM ...");
+        LOG.entering(LOG.getName(),"exportRom");
         RomManager.produceGraphics(tiles, compression);
         int offset = Integer.parseInt(graphicsOffset,16);
         RomManager.writeFile(romFilePath, offset, compression);
-        System.out.println("com.sfc.sf2.graphics.io.RomManager.exportRom() - ROM exported.");        
+        LOG.exiting(LOG.getName(),"exportRom");        
     }    
     
     private static void openFile(String romFilePath){
         try {
-            System.out.println("com.sfc.sf2.graphics.io.RomManager.openFile() - ROM file path : " + romFilePath);
+            LOG.entering(LOG.getName(),"openFile");
+            LOG.fine("ROM file path : " + romFilePath);
             romFile = new File(romFilePath);
             romData = Files.readAllBytes(Paths.get(romFile.getAbsolutePath()));
-            System.out.println("com.sfc.sf2.graphics.io.RomManager.openFile() - File opened.");
+            LOG.exiting(LOG.getName(),"openFile");
         } catch (IOException ex) {
-            Logger.getLogger(RomManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.throwing(LOG.getName(),"openFile", ex);
         }
     }
     
     private static Tile[] parseGraphics(int graphicsOffset, int graphicsLength, int compression, Color[] palette){
-        System.out.println("com.sfc.sf2.graphics.io.RomManager.parseGraphics() - Parsing Graphics ...");
+        LOG.entering(LOG.getName(),"parseGraphics");
         byte[] data = Arrays.copyOfRange(romData,graphicsOffset,graphicsOffset+graphicsLength);        
         Tile[] tiles = null;
         switch(compression){
@@ -75,12 +75,12 @@ public class RomManager {
                 break;
 
         }
-        System.out.println("com.sfc.sf2.graphics.io.RomManager.parseGraphics() - Graphics parsed.");
+        LOG.exiting(LOG.getName(),"parseGraphics");
         return tiles;
     }
 
     private static void produceGraphics(Tile[] tiles, int compression) {
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Producing Graphics ...");
+        LOG.entering(LOG.getName(),"produceGraphics");
         switch(compression){
             case GraphicsManager.COMPRESSION_NONE:
                 UncompressedGraphicsEncoder.produceGraphics(tiles);
@@ -89,12 +89,12 @@ public class RomManager {
                 BasicGraphicsEncoder.produceGraphics(tiles);
                 break;
         }        
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Graphics produced.");
+        LOG.exiting(LOG.getName(),"produceGraphics");
     }    
   
     private static void writeFile(String romFilePath, int offset, int compression){
         try {
-            System.out.println("com.sfc.sf2.graphics.io.RomManager.writeFile() - Writing file ...");
+            LOG.entering(LOG.getName(),"writeFile");
             romFile = new File(romFilePath);
             Path romPath = Paths.get(romFile.getAbsolutePath());
             romData = Files.readAllBytes(romPath);
@@ -109,10 +109,10 @@ public class RomManager {
             }
             System.arraycopy(newGraphicsFileBytes, 0, romData, offset, newGraphicsFileBytes.length);
             Files.write(romPath,romData);
-            System.out.println(romData.length + " bytes into " + romFilePath);  
-            System.out.println("com.sfc.sf2.graphics.io.RomManager.writeFile() - File written.");
+            LOG.fine(romData.length + " bytes into " + romFilePath);  
+            LOG.entering(LOG.getName(),"writeFile");
         } catch (IOException ex) {
-            Logger.getLogger(RomManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.throwing(LOG.getName(),"writeFile", ex);
         }
     }    
     

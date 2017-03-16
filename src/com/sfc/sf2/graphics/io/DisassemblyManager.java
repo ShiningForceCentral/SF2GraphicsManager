@@ -25,23 +25,24 @@ import java.util.logging.Logger;
  */
 public class DisassemblyManager {
 
+    private static final Logger LOG = Logger.getLogger(DisassemblyManager.class.getName());
     
     public static Tile[] importDisassembly(String filePath, Color[] palette, int compression){
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.importDisassembly() - Importing disassembly ...");
+        LOG.entering(LOG.getName(),"importDisassembly");
         Tile[] tiles = DisassemblyManager.parseGraphics(filePath, palette, compression);        
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.importDisassembly() - Disassembly imported.");
+        LOG.exiting(LOG.getName(),"importDisassembly");
         return tiles;
     }
     
     public static void exportDisassembly(Tile[] tiles, String filePath, int compression){
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
+        LOG.entering(LOG.getName(),"exportDisassembly");
         DisassemblyManager.produceGraphics(tiles, compression);
         DisassemblyManager.writeFiles(filePath, compression);
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.exportDisassembly() - Disassembly exported.");        
+        LOG.exiting(LOG.getName(),"exportDisassembly");        
     }    
     
     private static Tile[] parseGraphics(String filePath, Color[] palette, int compression){
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.parseGraphics() - Parsing graphics ...");
+        LOG.entering(LOG.getName(),"parseGraphics");
         Tile[] tiles = null;       
         try{
             Path path = Paths.get(filePath);
@@ -56,14 +57,14 @@ public class DisassemblyManager {
                 
             }
         }catch(Exception e){
-             System.err.println("com.sfc.sf2.graphics.io.DisassemblyManager.parseGraphics() - Error while parsing graphics data : "+e);
+             LOG.throwing(LOG.getName(),"parseGraphics", e);
         } 
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.parseGraphics() - Graphics parsed.");
+        LOG.exiting(LOG.getName(),"parseGraphics");
         return tiles;
     }
 
     private static void produceGraphics(Tile[] tiles, int compression) {
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Producing graphics ...");
+        LOG.entering(LOG.getName(),"produceGraphics");
         switch(compression){
             case GraphicsManager.COMPRESSION_NONE:
                 UncompressedGraphicsEncoder.produceGraphics(tiles);
@@ -72,12 +73,12 @@ public class DisassemblyManager {
                 BasicGraphicsEncoder.produceGraphics(tiles);
                 break;
         } 
-        System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.produceGraphics() - Graphics produced.");
+        LOG.exiting(LOG.getName(),"produceGraphics");
     }    
   
     private static void writeFiles(String filePath, int compression){
         try {
-            System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.writeFiles() - Writing file ...");
+            LOG.entering(LOG.getName(),"writeFiles");
             Path graphicsFilePath = Paths.get(filePath);
             byte[] newGraphicsFileBytes = null;
             switch(compression){
@@ -89,10 +90,10 @@ public class DisassemblyManager {
                     break;
             }
             Files.write(graphicsFilePath,newGraphicsFileBytes);
-            System.out.println(newGraphicsFileBytes.length + " bytes into " + graphicsFilePath);
-            System.out.println("com.sfc.sf2.graphics.io.DisassemblyManager.writeFiles() - File written.");
+            LOG.info(newGraphicsFileBytes.length + " bytes into " + graphicsFilePath);
+            LOG.entering(LOG.getName(),"writeFiles");
         } catch (IOException ex) {
-            Logger.getLogger(DisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.throwing(LOG.getName(),"writeFiles", ex);
         }
     }    
 

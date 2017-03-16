@@ -12,6 +12,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,44 +21,15 @@ import java.util.List;
 public class BasicGraphicsEncoder {
     
     
-    private static byte[] newGraphicsFileBytes;
+    private static byte[] newGraphicsFileBytes;  
     
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }    
-    public static String byteListToHex(List<Byte> bytes) {
-        char[] hexChars = new char[bytes.size() * 2];
-        for ( int j = 0; j < bytes.size(); j++ ) {
-            int v = bytes.get(j) & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }   
-    public static String shortListToHex(List<Short> shorts) {
-        char[] hexChars = new char[shorts.size() * 4];
-        for ( int j = 0; j < shorts.size(); j++ ) {
-            short v = (short)(shorts.get(j) & 0xFFFF);
-            hexChars[j * 4] = hexArray[(v & 0xF000) >>> 12];
-            hexChars[(j * 4) + 1] = hexArray[(v & 0x0F00) >>> 8];
-            hexChars[(j * 4) + 2] = hexArray[(v & 0x00F0) >>> 4];
-            hexChars[(j * 4) + 3] = hexArray[(v & 0x000F)];            
-        }
-        return new String(hexChars);
-    }    
+    private static final Logger LOG = Logger.getLogger(BasicGraphicsEncoder.class.getName());  
     
     public static void produceGraphics(Tile[] tiles){
-        System.out.println("com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder.produceGraphics() - Producing Graphics ...");
+        LOG.entering(LOG.getName(),"produceGraphics");
         UncompressedGraphicsEncoder.produceGraphics(tiles);
         byte[] input = UncompressedGraphicsEncoder.getNewGraphicsFileBytes();
-        System.out.println("input = " + bytesToHex(input));
+        LOG.fine("input = " + bytesToHex(input));
         byte[] output = null;
         List<Short> outputWords = new ArrayList();
         Short currentCommandWord = null;
@@ -80,7 +52,7 @@ public class BasicGraphicsEncoder {
             inputbb.put(input[inputPointer]);          
             Short inputWord = inputbb.getShort(0);
             
-            System.out.println("inputWord = " + Integer.toHexString(inputWord & 0xFFFF));
+            LOG.fine("inputWord = " + Integer.toHexString(inputWord & 0xFFFF));
             
             /* Get number of potentially repeatable words */
             int potentialRepeats = 0;
@@ -89,6 +61,10 @@ public class BasicGraphicsEncoder {
                 int testCursor = inputPointer;
                 while(nextWord.equals(previousWord)){
                     potentialRepeats++;
+                    // Push further if possible or stop
+                    if(potentialRepeats==33){
+                        break;
+                    }                    
                     testCursor+=2;
                     if(testCursor+1<input.length){
                         ByteBuffer testbb = ByteBuffer.allocate(2);
@@ -100,7 +76,7 @@ public class BasicGraphicsEncoder {
                         break;
                     }
                 } 
-                System.out.println("Potential repeats = " + potentialRepeats);
+                LOG.fine("Potential repeats = " + potentialRepeats);
             }
         
             /* Get number of potential word sequence to copy */
@@ -118,7 +94,7 @@ public class BasicGraphicsEncoder {
                 while(sourceWord.equals(destWord)){
                     testLength++;
                     // Push further if possible or stop
-                    if(testLength==31){
+                    if(testLength==33){
                         break;
                     }
                     if((inputPointer+testLength*2)<input.length){
@@ -142,7 +118,7 @@ public class BasicGraphicsEncoder {
                 }
                 sourceCursor-=2;      
             }
-            System.out.println("Potential copy length from " + candidateSourceCursor + " = " + potentialCopyLength); 
+            LOG.fine("Potential copy length from " + candidateSourceCursor + " = " + potentialCopyLength); 
             
             if(potentialRepeats>1 || potentialCopyLength>1){
                 if(potentialRepeats>=potentialCopyLength){
@@ -150,7 +126,7 @@ public class BasicGraphicsEncoder {
                     int repeatValue = 33 - potentialRepeats;
                     short repeatWord = (short) (0x0020 | repeatValue);
                     outputWords.add(repeatWord);
-                    System.out.println("repeatWord = " + Integer.toHexString(repeatWord & 0xFFFF));
+                    LOG.fine("repeatWord = " + Integer.toHexString(repeatWord & 0xFFFF));
                     inputPointer+=2*potentialRepeats;
                 }else{
                     // Apply word sequence copy
@@ -158,7 +134,7 @@ public class BasicGraphicsEncoder {
                     int sequenceLength = 33 - potentialCopyLength;
                     short repeatWord = (short) ((short)(startOffset<<5) | sequenceLength);
                     outputWords.add(repeatWord);
-                    System.out.println("repeatWord = " + Integer.toHexString(repeatWord & 0xFFFF));
+                    LOG.fine("repeatWord = " + Integer.toHexString(repeatWord & 0xFFFF));
                     inputPointer+=2*potentialCopyLength;
                 }
                 outputWords.set(commandWordIndex, (short) (outputWords.get(commandWordIndex) | (0x8000 >> commandWordCursor)));
@@ -173,7 +149,7 @@ public class BasicGraphicsEncoder {
             previousbb.put(input[inputPointer-2]);          
             previousWord = previousbb.getShort(0);            
             commandWordCursor++;
-            System.out.println("output = " + shortListToHex(outputWords));
+            LOG.fine("output = " + shortListToHex(outputWords));
         }
         if(commandWordCursor % 16 == 0){
             currentCommandWord = (short)0;
@@ -183,7 +159,7 @@ public class BasicGraphicsEncoder {
         }  
         outputWords.set(commandWordIndex, (short) (outputWords.get(commandWordIndex) | (0x8000 >> commandWordCursor)));
         outputWords.add((short)0);
-        System.out.println("output = " + shortListToHex(outputWords));
+        LOG.fine("output = " + shortListToHex(outputWords));
         
         output = new byte[outputWords.size()*2];
         for(int i=0;i<outputWords.size();i++){
@@ -191,8 +167,8 @@ public class BasicGraphicsEncoder {
             output[i*2] = (byte)((word >> 8) & 0xff);
             output[i*2+1] = (byte)(word & 0xff);
         }
-        System.out.println("output bytes length = " + output.length);
-        System.out.println("com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder.produceGraphics() - Graphics produced.");
+        LOG.fine("output bytes length = " + output.length);
+        LOG.exiting(LOG.getName(),"produceGraphics");
         newGraphicsFileBytes = output;
     }
     
@@ -200,6 +176,35 @@ public class BasicGraphicsEncoder {
         return newGraphicsFileBytes;
     }
     
-    
+    final protected static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }    
+    public static String byteListToHex(List<Byte> bytes) {
+        char[] hexChars = new char[bytes.size() * 2];
+        for ( int j = 0; j < bytes.size(); j++ ) {
+            int v = bytes.get(j) & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }   
+    public static String shortListToHex(List<Short> shorts) {
+        char[] hexChars = new char[shorts.size() * 4];
+        for ( int j = 0; j < shorts.size(); j++ ) {
+            short v = (short)(shorts.get(j) & 0xFFFF);
+            hexChars[j * 4] = HEX_ARRAY[(v & 0xF000) >>> 12];
+            hexChars[(j * 4) + 1] = HEX_ARRAY[(v & 0x0F00) >>> 8];
+            hexChars[(j * 4) + 2] = HEX_ARRAY[(v & 0x00F0) >>> 4];
+            hexChars[(j * 4) + 3] = HEX_ARRAY[(v & 0x000F)];            
+        }
+        return new String(hexChars);
+    }      
 
 }

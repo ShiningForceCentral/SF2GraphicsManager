@@ -8,21 +8,17 @@ package com.sfc.sf2.graphics.gui;
 import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.layout.DefaultLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Enumeration;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
-import javax.swing.JViewport;
-import javax.swing.RowFilter;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -38,11 +34,25 @@ public class MainEditor extends javax.swing.JFrame {
     public MainEditor() {
         initComponents();
         initConsole(jTextArea1);
+        System.setProperty("java.util.logging.SimpleFormatter.format", 
+            "%2$s - %5$s%6$s%n");        
+        initLogger("com.sfc.sf2.graphics", Level.FINEST);
         File workingDirectory = new File(MainEditor.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         System.setProperty("user.dir", workingDirectory.getParent());
         jFileChooser1.setCurrentDirectory(workingDirectory);
         jFileChooser2.setCurrentDirectory(workingDirectory);       
     }
+    
+    private void initLogger(String name, Level level){
+        Logger log = Logger.getLogger(name);
+        log.setUseParentHandlers(false);
+        log.setLevel(level);
+        ConsoleHandler ch = new ConsoleHandler();
+        ch.setLevel(level);        
+        log.addHandler(ch);                
+
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

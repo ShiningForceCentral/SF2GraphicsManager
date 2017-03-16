@@ -7,17 +7,19 @@ package com.sfc.sf2.graphics.uncompressed;
 
 import com.sfc.sf2.graphics.Tile;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.util.logging.Logger;
 
 /**
  *
  * @author wiz
  */
 public class UncompressedGraphicsDecoder {
+
+    private static final Logger LOG = Logger.getLogger(UncompressedGraphicsDecoder.class.getName());    
     
     public static Tile[] decodeUncompressedGraphics(byte[] data, Color[] palette){
-        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsDecoder.decodeUncompressedGraphics() - Decoding uncompressed graphics ...");
-        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsDecoder.decodeUncompressedGraphics() - Data length = " + data.length + ", -> expecting " + data.length/32 + " tiles to parse.");
+        LOG.entering(LOG.getName(),"decodeUncompressedGraphics");
+        LOG.fine("Data length = " + data.length + ", -> expecting " + data.length/32 + " tiles to parse.");
         Tile[] tiles = new Tile[data.length/32];
         for(int i=0;i<tiles.length;i++){
             Tile tile = new Tile();
@@ -32,10 +34,10 @@ public class UncompressedGraphicsDecoder {
                     tile.setPixel(x+1, y, secondPixel);
                 }
             }
-            System.out.println(tile);
+            LOG.finest(tile.toString());
             tiles[i] = tile;
         }
-        System.out.println("com.sfc.sf2.graphics.UncompressedGraphicsDecoder.decodeUncompressedGraphics() - Uncompressed graphics decoded.");
+        LOG.exiting(LOG.getName(),"decodeUncompressedGraphics");
         return tiles;
     }
     
