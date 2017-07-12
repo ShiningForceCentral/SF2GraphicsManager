@@ -223,7 +223,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel8.setText("Palette file :");
 
-        jTextField8.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\displayinitpalette.bin");
+        jTextField8.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogopalette.bin");
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
@@ -246,7 +246,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel2.setText("<html>Select disassembly files.");
 
-        jTextField9.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\mapsprites\\mapsprite002.bin");
+        jTextField9.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogo.bin");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);

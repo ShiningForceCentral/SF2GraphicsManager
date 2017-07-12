@@ -9,6 +9,8 @@ import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder;
+import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
+import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
 import java.awt.Color;
@@ -73,6 +75,9 @@ public class RomManager {
             case GraphicsManager.COMPRESSION_BASIC:
                 tiles = BasicGraphicsDecoder.decodeBasicGraphics(data, palette);
                 break;
+            case GraphicsManager.COMPRESSION_STACK:
+                tiles = new StackGraphicsDecoder().decodeStackGraphics(data, palette);
+                break;
 
         }
         LOG.exiting(LOG.getName(),"parseGraphics");
@@ -87,6 +92,9 @@ public class RomManager {
                 break;
             case GraphicsManager.COMPRESSION_BASIC:
                 BasicGraphicsEncoder.produceGraphics(tiles);
+                break;
+            case GraphicsManager.COMPRESSION_STACK:
+                StackGraphicsEncoder.produceGraphics(tiles);
                 break;
         }        
         LOG.exiting(LOG.getName(),"produceGraphics");
@@ -105,6 +113,9 @@ public class RomManager {
                     break;
                 case GraphicsManager.COMPRESSION_BASIC:
                     newGraphicsFileBytes = BasicGraphicsEncoder.getNewGraphicsFileBytes(); 
+                    break;
+                case GraphicsManager.COMPRESSION_STACK:
+                    newGraphicsFileBytes = StackGraphicsEncoder.getNewGraphicsFileBytes(); 
                     break;
             }
             System.arraycopy(newGraphicsFileBytes, 0, romData, offset, newGraphicsFileBytes.length);
