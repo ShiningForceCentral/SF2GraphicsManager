@@ -43,6 +43,8 @@ public class StackGraphicsDecoder {
         short value = 0;
         int copyOffset = 0;
         int copyLength = 0;
+        inputCursor = -2;
+        inputBitCursor = 16;
         Tile[] tiles = null;
         try{
             while(!decodingDone){

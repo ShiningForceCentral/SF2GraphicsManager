@@ -510,7 +510,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel11.setText("PNG File :");
 
-        jTextField11.setText(".\\icons.png");
+        jTextField11.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogotiles.png");
         jTextField11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField11ActionPerformed(evt);
@@ -597,7 +597,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel14.setText("Graphics file :");
 
-        jTextField13.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\mapsprites\\mapsprite002.bin");
+        jTextField13.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogoout.bin");
         jTextField13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField13ActionPerformed(evt);

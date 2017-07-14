@@ -20,6 +20,9 @@ import java.util.logging.Logger;
  */
 public class StackGraphicsEncoder {
     
+    private static final List<String> historyBitStrings = new ArrayList<String>(Arrays.asList(new String[] {"00","01","100","101","110","11100","11101","11110","1111100",
+                                                                                                "1111101","1111110","111111100","111111101","111111110","1111111110","1111111111"}));    
+    private static final int MAX_COPY_OFFSET = 2047;
     
     private static byte[] newGraphicsFileBytes;  
     
@@ -27,153 +30,195 @@ public class StackGraphicsEncoder {
     
     public static void produceGraphics(Tile[] tiles){
         LOG.entering(LOG.getName(),"produceGraphics");
+        List<Integer> historyStack = new ArrayList<Integer>(Arrays.asList(new Integer[] {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}));
+        StringBuilder outputSb = new StringBuilder();
+        StringBuilder commandSb = new StringBuilder(16);
+        StringBuilder dataSb = new StringBuilder();
         UncompressedGraphicsEncoder.produceGraphics(tiles);
-        byte[] input = UncompressedGraphicsEncoder.getNewGraphicsFileBytes();
-        LOG.fine("input = " + bytesToHex(input));
-        byte[] output = null;
-        List<Short> outputWords = new ArrayList();
-        Short currentCommandWord = null;
-        int commandWordCursor = 0;
-        int commandWordIndex = 0;
-        int inputPointer = 0;
-        Short previousWord = null;
-        while(inputPointer<input.length){
+        byte[] inputData = UncompressedGraphicsEncoder.getNewGraphicsFileBytes();
+        LOG.fine("input = " + bytesToHex(inputData));
+        int inputCursor = 0;
+        byte[] output;
+        int potentialCopyLength;
+        int candidateSourceCursor;
+        int copyCursor;
+        StringBuilder offsetSb = new StringBuilder(11);
+        StringBuilder lengthSb = new StringBuilder();
+        while(inputCursor<inputData.length){
+       
+            short inputWord = getInputWord(inputData, inputCursor);
             
-            if(commandWordCursor % 16 == 0){
-                currentCommandWord = (short)0;
-                commandWordIndex = outputWords.size();
-                outputWords.add((short)(currentCommandWord & 0xFFFF));
-                commandWordCursor = 0;
-            }
-            
-            ByteBuffer inputbb = ByteBuffer.allocate(2);
-            inputbb.order(ByteOrder.LITTLE_ENDIAN);
-            inputbb.put(input[inputPointer+1]);
-            inputbb.put(input[inputPointer]);          
-            Short inputWord = inputbb.getShort(0);
-            
-            LOG.fine("inputWord = " + Integer.toHexString(inputWord & 0xFFFF));
-            
-            /* Get number of potentially repeatable words */
-            int potentialRepeats = 0;
-            if(inputWord.equals(previousWord)){
-                Short nextWord = inputWord;
-                int testCursor = inputPointer;
-                while(nextWord.equals(previousWord)){
-                    potentialRepeats++;
-                    // Push further if possible or stop
-                    if(potentialRepeats==33){
-                        break;
-                    }                    
-                    testCursor+=2;
-                    if(testCursor+1<input.length){
-                        ByteBuffer testbb = ByteBuffer.allocate(2);
-                        testbb.order(ByteOrder.LITTLE_ENDIAN);
-                        testbb.put(input[testCursor+1]);
-                        testbb.put(input[testCursor]);          
-                        nextWord = testbb.getShort(0);                        
-                    }else{
-                        break;
-                    }
-                } 
-                LOG.fine("Potential repeats = " + potentialRepeats);
-            }
+            //LOG.fine("inputWord = " + Integer.toHexString(inputWord & 0xFFFF));
         
             /* Get number of potential word sequence to copy */
-            int potentialCopyLength = 0;
-            int candidateSourceCursor = 0;
-            int sourceCursor = inputPointer-4;
-            while(sourceCursor>=0){
+            potentialCopyLength = 0;
+            candidateSourceCursor = 0;
+            copyCursor = inputCursor-2;
+            while(copyCursor>=0&&(((inputCursor - copyCursor)/2)<MAX_COPY_OFFSET)){
                 int testLength = 0;
-                Short destWord = inputWord;
-                ByteBuffer sourcebb = ByteBuffer.allocate(2);
-                sourcebb.order(ByteOrder.LITTLE_ENDIAN);
-                sourcebb.put(input[sourceCursor+1]);
-                sourcebb.put(input[sourceCursor]);          
-                Short sourceWord = sourcebb.getShort(0);
-                while(sourceWord.equals(destWord)){
+                short destWord = inputWord;        
+                short sourceWord = getInputWord(inputData, copyCursor);
+                while(sourceWord==destWord){
                     testLength++;
-                    // Push further if possible or stop
-                    if(testLength==33){
-                        break;
-                    }
-                    if((inputPointer+testLength*2)<input.length){
-                        sourcebb = ByteBuffer.allocate(2);
-                        sourcebb.order(ByteOrder.LITTLE_ENDIAN);
-                        sourcebb.put(input[sourceCursor+testLength*2+1]);
-                        sourcebb.put(input[sourceCursor+testLength*2]);          
-                        sourceWord = sourcebb.getShort(0);                        
-                        ByteBuffer destbb = ByteBuffer.allocate(2);
-                        destbb.order(ByteOrder.LITTLE_ENDIAN);
-                        destbb.put(input[inputPointer+testLength*2+1]);
-                        destbb.put(input[inputPointer+testLength*2]);          
-                        destWord = destbb.getShort(0);
+                    if((inputCursor+testLength*2)<inputData.length){          
+                        sourceWord = getInputWord(inputData, copyCursor+testLength*2);                                 
+                        destWord = getInputWord(inputData, inputCursor+testLength*2); 
                     }else{
                         break;
                     }
                 } 
                 if(testLength>potentialCopyLength){
-                    candidateSourceCursor = sourceCursor;
+                    candidateSourceCursor = copyCursor;
                     potentialCopyLength = testLength;
                 }
-                sourceCursor-=2;      
+                copyCursor-=2;      
             }
-            LOG.fine("Potential copy length from " + candidateSourceCursor + " = " + potentialCopyLength); 
+            //LOG.fine("Potential copy length from " + candidateSourceCursor + " = " + potentialCopyLength); 
             
-            if(potentialRepeats>1 || potentialCopyLength>1){
-                if(potentialRepeats>=potentialCopyLength){
-                    // Apply word repeat
-                    int repeatValue = 33 - potentialRepeats;
-                    short repeatWord = (short) (0x0020 | repeatValue);
-                    outputWords.add(repeatWord);
-                    LOG.fine("repeatWord = " + Integer.toHexString(repeatWord & 0xFFFF));
-                    inputPointer+=2*potentialRepeats;
-                }else{
-                    // Apply word sequence copy
-                    int startOffset = (inputPointer - candidateSourceCursor) / 2;
-                    int sequenceLength = 33 - potentialCopyLength;
-                    short repeatWord = (short) ((short)(startOffset<<5) | sequenceLength);
-                    outputWords.add(repeatWord);
-                    LOG.fine("repeatWord = " + Integer.toHexString(repeatWord & 0xFFFF));
-                    inputPointer+=2*potentialCopyLength;
+            if(potentialCopyLength>1){
+                // Apply word sequence copy
+                int startOffset = (inputCursor - candidateSourceCursor) / 2;
+                int copyLength = potentialCopyLength;
+                commandSb.append("1");
+                offsetSb.setLength(0);
+                offsetSb.append(Integer.toBinaryString(startOffset));
+                while(offsetSb.length()<11){
+                    offsetSb.insert(0, "0");
                 }
-                outputWords.set(commandWordIndex, (short) (outputWords.get(commandWordIndex) | (0x8000 >> commandWordCursor)));
+                dataSb.append(offsetSb);
+                lengthSb.setLength(0);
+                copyLength-=2;
+                while(copyLength>=0){
+                    switch(copyLength){
+                        case 0:
+                            lengthSb.append("1");
+                            copyLength=-1;
+                            break;
+                        case 1:
+                            lengthSb.append("01");
+                            copyLength=-1;
+                            break;
+                        default:
+                            lengthSb.append("00");
+                            copyLength-=2;
+                            break;  
+                    }
+                }
+                dataSb.append(lengthSb);
+                inputCursor+=potentialCopyLength*2;
+                LOG.fine("input word "+Integer.toHexString(inputWord & 0xFFFF)+" copy : offset=" + startOffset + "/" + offsetSb.toString() + ", length="+potentialCopyLength + "/" + lengthSb);
             }else{
-                // No repeat or copy : just output the word
-                outputWords.add(inputWord);
-                inputPointer+=2;
+                // No copy : word value
+                commandSb.append("0");
+                String valueBitString = getValueBitString(historyStack, inputWord);
+                dataSb.append(valueBitString);
+                inputCursor+=2;
+                LOG.fine("input word "+Integer.toHexString(inputWord & 0xFFFF)+" value : " + valueBitString+", history="+historyStack.toString());
             }
-            ByteBuffer previousbb = ByteBuffer.allocate(2);
-            previousbb.order(ByteOrder.LITTLE_ENDIAN);
-            previousbb.put(input[inputPointer-2+1]);
-            previousbb.put(input[inputPointer-2]);          
-            previousWord = previousbb.getShort(0);            
-            commandWordCursor++;
-            LOG.fine("output = " + shortListToHex(outputWords));
+          
+            if(commandSb.length()==16){
+                String commandBitString = getCommandBitString(commandSb);
+                LOG.fine("commandSb=" + commandSb.toString()+", commandBitString="+commandBitString);
+                outputSb.append(commandBitString);
+                outputSb.append(dataSb);
+                commandSb.setLength(0);
+                dataSb.setLength(0);
+                LOG.fine("output = " + outputSb.toString());
+            }            
+
+            
         }
-        if(commandWordCursor % 16 == 0){
-            currentCommandWord = (short)0;
-            commandWordIndex = outputWords.size();
-            outputWords.add(currentCommandWord);
-            commandWordCursor = 0;
-        }  
-        outputWords.set(commandWordIndex, (short) (outputWords.get(commandWordIndex) | (0x8000 >> commandWordCursor)));
-        outputWords.add((short)0);
-        LOG.fine("output = " + shortListToHex(outputWords));
+        /* Add ending command with offset 0 */
+        commandSb.append("1");
+        dataSb.append("000000000001");
+        while(commandSb.length()!=16){
+            commandSb.append("1");
+        }
+        String commandBitString = getCommandBitString(commandSb);
+        outputSb.append(commandBitString);
+        outputSb.append(dataSb);
+        LOG.fine("output = " + outputSb.toString());
         
-        output = new byte[outputWords.size()*2];
-        for(int i=0;i<outputWords.size();i++){
-            short word = outputWords.get(i);
-            output[i*2] = (byte)((word >> 8) & 0xff);
-            output[i*2+1] = (byte)(word & 0xff);
+        /* Word-wise padding */
+        while(outputSb.length()%16 != 0){
+            outputSb.append("1");
+        }
+        
+        /* Byte array conversion */
+        output = new byte[outputSb.length()/8];
+        for(int i=0;i<output.length;i++){
+            Byte b = (byte)(Integer.valueOf(outputSb.substring(i*8, i*8+8),2)&0xFF);
+            output[i] = b;
         }
         LOG.fine("output bytes length = " + output.length);
+        LOG.fine("output = " + bytesToHex(output));
         LOG.exiting(LOG.getName(),"produceGraphics");
         newGraphicsFileBytes = output;
     }
     
     public static byte[] getNewGraphicsFileBytes(){
         return newGraphicsFileBytes;
+    }
+    
+    private static String getValueBitString(List<Integer> historyStack, short value){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<4;i++){
+            int quartet = (value>>(16-4*(i+1)))&0xF;
+            for(int j=0;j<16;j++){
+                if(quartet == historyStack.get(j)){
+                    sb.append(historyBitStrings.get(j));
+                    historyStack.remove(j);
+                    historyStack.add(0, quartet);
+                    break;
+                }
+            }        
+        }
+        return sb.toString();
+    }
+    
+    private static String getCommandBitString(StringBuilder commandSb){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<4;i++){
+            String quartet = commandSb.substring(i*4, i*4+4);
+            switch(quartet){
+                /* input bitstring	==> 4 command bits : 0 = word value, 1 = section copy */
+                case "0000":
+                    /* 0 		==> 0000 (4 word values, most frequent pattern, naturally) */
+                    sb.append("0");
+                    break;
+                case "0001":
+                    /* 100 		==> 0001 (3 word values, then 1 section copy) */
+                    sb.append("100");
+                    break;
+                case "0010":
+                    /* 101 		==> 0010 (2 word values etc ...) */
+                    sb.append("101");
+                    break;
+                case "0100":
+                    /* 110 		==> 0100 */
+                    sb.append("110");
+                    break;
+                case "1000":
+                    /* 1110 		==> 1000 */
+                    sb.append("1110");
+                    break;
+                default:
+                    /* 1111 xxxx 	==> xxxx (custom command pattern) */
+                    sb.append("1111").append(quartet);
+                    break;
+            }
+                    
+        }
+        return sb.toString();
+    }
+    
+    private static short getInputWord(byte[] inputData, int cursor){
+        ByteBuffer bb = ByteBuffer.allocate(2);
+        bb.order(ByteOrder.LITTLE_ENDIAN);
+        bb.put(inputData[cursor+1]);
+        bb.put(inputData[cursor]);
+        short s = bb.getShort(0);
+        return s;
     }
     
     final protected static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
