@@ -19,6 +19,10 @@ public class Tile extends JPanel {
     private int id;
     private Color[] palette;
     private int[][] pixels = new int[8][8];
+    
+    private boolean highPriority = false;
+    private boolean hFlip = false;
+    private boolean vFlip = false;
 
     public int[][] getPixels() {
         return pixels;
@@ -42,6 +46,30 @@ public class Tile extends JPanel {
     public void setPalette(Color[] palette) {
         this.palette = palette;
     }
+
+    public boolean isHighPriority() {
+        return highPriority;
+    }
+
+    public void setHighPriority(boolean highPriority) {
+        this.highPriority = highPriority;
+    }
+
+    public boolean ishFlip() {
+        return hFlip;
+    }
+
+    public void sethFlip(boolean hFlip) {
+        this.hFlip = hFlip;
+    }
+
+    public boolean isvFlip() {
+        return vFlip;
+    }
+
+    public void setvFlip(boolean vFlip) {
+        this.vFlip = vFlip;
+    }  
     
     public Tile(){
         setSize(8,8);
@@ -70,6 +98,34 @@ public class Tile extends JPanel {
         } 
         return image;        
     }
+    
+    public static Tile vFlip(Tile tile){
+        Tile flippedTile = new Tile();
+        flippedTile.setHighPriority(tile.isHighPriority());
+        flippedTile.sethFlip(tile.ishFlip());
+        flippedTile.setvFlip(!tile.isvFlip());
+        flippedTile.setPalette(tile.getPalette());
+        for(int y=0;y<tile.getPixels().length;y++){
+            for(int x=0;x<tile.getPixels()[y].length;x++){
+                flippedTile.getPixels()[y][x] = tile.getPixels()[y][7-x];
+            }
+        } 
+        return flippedTile;
+    }
+    
+    public static Tile hFlip(Tile tile){
+        Tile flippedTile = new Tile();
+        flippedTile.setHighPriority(tile.isHighPriority());
+        flippedTile.sethFlip(!tile.ishFlip());
+        flippedTile.setvFlip(tile.isvFlip());
+        flippedTile.setPalette(tile.getPalette());
+        for(int y=0;y<tile.getPixels().length;y++){
+            for(int x=0;x<tile.getPixels()[y].length;x++){
+                flippedTile.getPixels()[y][x] = tile.getPixels()[7-y][x];
+            }
+        } 
+        return flippedTile;
+    }    
     
     public String toString(){
         StringBuilder sb = new StringBuilder();
