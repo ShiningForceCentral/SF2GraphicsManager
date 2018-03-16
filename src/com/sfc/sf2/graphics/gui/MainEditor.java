@@ -1271,7 +1271,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField31ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        graphicsManager.exportPng(jTextField17.getText(), jTextField31.getText());
+        graphicsManager.exportGif(jTextField17.getText(), jTextField31.getText());
     }//GEN-LAST:event_jButton21ActionPerformed
 
     /**
