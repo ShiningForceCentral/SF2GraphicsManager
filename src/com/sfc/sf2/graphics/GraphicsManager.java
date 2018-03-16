@@ -7,6 +7,7 @@ package com.sfc.sf2.graphics;
 
 import com.sfc.sf2.graphics.io.DisassemblyManager;
 import com.sfc.sf2.graphics.io.PngManager;
+import com.sfc.sf2.graphics.io.GifManager;
 import com.sfc.sf2.graphics.io.RomManager;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
@@ -82,6 +83,21 @@ public class GraphicsManager {
         LOG.entering(LOG.getName(),"exportPng");
         PngManager.exportPng(tiles, filepath, tilesPerRow);
         LOG.exiting(LOG.getName(),"exportPng");       
+    }    
+    
+    public int importGif(String filepath){
+        LOG.entering(LOG.getName(),"importGif");
+        tiles = GifManager.importGif(filepath);
+        paletteManager.setPalette(tiles[0].getPalette());
+        int tileWidth = GifManager.getImportedGifTileWidth();
+        LOG.exiting(LOG.getName(),"importGif");
+        return tileWidth;
+    }
+    
+    public void exportGif(String filepath, String tilesPerRow){
+        LOG.entering(LOG.getName(),"exportGif");
+        GifManager.exportGif(tiles, filepath, tilesPerRow);
+        LOG.exiting(LOG.getName(),"exportGif");       
     }
 
 }

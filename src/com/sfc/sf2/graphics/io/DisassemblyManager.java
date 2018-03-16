@@ -102,7 +102,7 @@ public class DisassemblyManager {
             }
             Files.write(graphicsFilePath,newGraphicsFileBytes);
             LOG.info(newGraphicsFileBytes.length + " bytes into " + graphicsFilePath);
-            LOG.entering(LOG.getName(),"writeFiles");
+            LOG.exiting(LOG.getName(),"writeFiles");
         } catch (IOException ex) {
             LOG.throwing(LOG.getName(),"writeFiles", ex);
         }
