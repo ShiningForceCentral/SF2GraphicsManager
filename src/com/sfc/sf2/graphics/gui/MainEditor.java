@@ -237,7 +237,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel8.setText("Palette file :");
 
-        jTextField8.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogopalette.bin");
+        jTextField8.setText(".\\tech\\segalogopalette.bin");
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
@@ -260,7 +260,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel2.setText("<html>Select disassembly files.");
 
-        jTextField9.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogo.bin");
+        jTextField9.setText(".\\tech\\segalogo.bin");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -286,6 +286,7 @@ public class MainEditor extends javax.swing.JFrame {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Basic", "Stack" }));
+        jComboBox1.setSelectedIndex(2);
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -359,7 +360,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel16.setText("Original ROM :");
 
-        jTextField16.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\build\\sf2.bin");
+        jTextField16.setText("..\\..\\..\\rom\\sf2.bin");
         jTextField16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField16ActionPerformed(evt);
@@ -430,6 +431,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel32.setText("Compression :");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Basic", "Stack" }));
+        jComboBox2.setSelectedIndex(2);
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -524,7 +526,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel11.setText("PNG File :");
 
-        jTextField11.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogotiles.png");
+        jTextField11.setText(".\\tech\\segalogotiles.png");
         jTextField11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField11ActionPerformed(evt);
@@ -585,7 +587,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel12.setText("GIF File :");
 
-        jTextField12.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogotiles.gif");
+        jTextField12.setText(".\\tech\\segalogotiles.gif");
         jTextField12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField12ActionPerformed(evt);
@@ -672,7 +674,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel14.setText("Graphics file :");
 
-        jTextField13.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\tech\\segalogoout.bin");
+        jTextField13.setText(".\\tech\\newsegalogo.bin");
         jTextField13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField13ActionPerformed(evt);
@@ -689,6 +691,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel34.setText("Compression :");
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Basic", "Stack" }));
+        jComboBox4.setSelectedIndex(2);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -733,7 +736,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel18.setText("Original ROM :");
 
-        jTextField18.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\build\\sf2build-20161020-014342.bin");
+        jTextField18.setText("..\\..\\..\\build\\sf2build.bin");
         jTextField18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField18ActionPerformed(evt);
@@ -768,6 +771,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel33.setText("Compression :");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Basic", "Stack" }));
+        jComboBox3.setSelectedIndex(2);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -825,7 +829,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel15.setText("PNG File :");
 
-        jTextField15.setText(".\\icons.png");
+        jTextField15.setText(".\\tech\\segalogo.png");
         jTextField15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField15ActionPerformed(evt);
@@ -902,7 +906,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel17.setText("GIF File :");
 
-        jTextField17.setText(".\\icons.gif");
+        jTextField17.setText(".\\tech\\segalogo.gif");
         jTextField17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField17ActionPerformed(evt);

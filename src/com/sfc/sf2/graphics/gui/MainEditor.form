@@ -363,7 +363,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField8">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005csegalogopalette.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogopalette.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField8ActionPerformed"/>
@@ -392,7 +392,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField9">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005csegalogo.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogo.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField9ActionPerformed"/>
@@ -433,6 +433,7 @@
                                             <StringItem index="2" value="Stack"/>
                                           </StringArray>
                                         </Property>
+                                        <Property name="selectedIndex" type="int" value="2"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
@@ -572,7 +573,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField16">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cbuild\u005csf2.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value="..\u005c..\u005c..\u005crom\u005csf2.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField16ActionPerformed"/>
@@ -678,6 +679,7 @@
                                             <StringItem index="2" value="Stack"/>
                                           </StringArray>
                                         </Property>
+                                        <Property name="selectedIndex" type="int" value="2"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox2ActionPerformed"/>
@@ -747,7 +749,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField11">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005csegalogotiles.png" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogotiles.png" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField11ActionPerformed"/>
@@ -835,7 +837,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField12">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005csegalogotiles.gif" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogotiles.gif" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField12ActionPerformed"/>
@@ -978,7 +980,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField13">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005csegalogoout.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005cnewsegalogo.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField13ActionPerformed"/>
@@ -1006,6 +1008,7 @@
                                             <StringItem index="2" value="Stack"/>
                                           </StringArray>
                                         </Property>
+                                        <Property name="selectedIndex" type="int" value="2"/>
                                       </Properties>
                                       <AuxValues>
                                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1094,7 +1097,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField18">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cbuild\u005csf2build-20161020-014342.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value="..\u005c..\u005c..\u005cbuild\u005csf2build.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField18ActionPerformed"/>
@@ -1148,6 +1151,7 @@
                                             <StringItem index="2" value="Stack"/>
                                           </StringArray>
                                         </Property>
+                                        <Property name="selectedIndex" type="int" value="2"/>
                                       </Properties>
                                       <AuxValues>
                                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1222,7 +1226,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField15">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value=".\u005cicons.png" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogo.png" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField15ActionPerformed"/>
@@ -1331,7 +1335,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField17">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value=".\u005cicons.gif" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogo.gif" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField17ActionPerformed"/>
