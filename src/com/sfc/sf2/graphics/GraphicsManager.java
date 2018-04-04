@@ -99,5 +99,32 @@ public class GraphicsManager {
         GifManager.exportGif(tiles, filepath, tilesPerRow);
         LOG.exiting(LOG.getName(),"exportGif");       
     }
+       
+    public void importDisassemblyWithLayout(String baseTilesetFilePath, 
+            String palette1FilePath, String palette1Offset,
+            String palette2FilePath, String palette2Offset,
+            String palette3FilePath, String palette3Offset,
+            String palette4FilePath, String palette4Offset,
+            String tileset1FilePath, String tileset1Offset,
+            String tileset2FilePath, String tileset2Offset,
+            String layoutFilePath, int compression){
+        LOG.entering(LOG.getName(),"importDisassemblyWithLayout");
+        LOG.info("info");
+        LOG.fine("fine");
+        LOG.finer("finer");
+        LOG.finest("finest");
+        Color[][] palettes = new Color[4][];
+        paletteManager.importRom(palette1FilePath, palette1Offset,"32");
+        palettes[0] = paletteManager.getPalette();
+        paletteManager.importRom(palette2FilePath, palette2Offset,"32");
+        palettes[1] = paletteManager.getPalette();
+        paletteManager.importRom(palette3FilePath, palette3Offset,"32");
+        palettes[2] = paletteManager.getPalette();
+        paletteManager.importRom(palette4FilePath, palette4Offset,"32");
+        palettes[3] = paletteManager.getPalette();
+        //palette[0] = new Color(255, 255, 255, 0);
+        tiles = DisassemblyManager.importDisassemblyWithLayout(baseTilesetFilePath, palettes, tileset1FilePath, tileset2FilePath, compression, layoutFilePath);
+        LOG.exiting(LOG.getName(),"importDisassemblyWithLayout");
+    }
 
 }
