@@ -139,4 +139,14 @@ public class Tile extends JPanel {
         return sb.toString();
     }
     
+    public static Tile paletteSwap(Tile tile, Color[] palette){
+        Tile pltSwappedTile = new Tile();
+        pltSwappedTile.setPixels(tile.getPixels());
+        pltSwappedTile.setHighPriority(tile.isHighPriority());
+        pltSwappedTile.sethFlip(!tile.ishFlip());
+        pltSwappedTile.setvFlip(tile.isvFlip());
+        pltSwappedTile.setPalette(palette);
+        return pltSwappedTile;
+    }
+    
 }

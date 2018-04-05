@@ -125,10 +125,26 @@ public class DisassemblyManager {
             byte[] data = Files.readAllBytes(path);
             Tile[] layoutTiles = new Tile[data.length/2];
             for(int i=0;i<layoutTiles.length;i++){
-                int tileId = (getWord(data,i*2)&0x7FF);
+                int layoutValue = getWord(data,i*2);
+                int priority = (layoutValue&0x8000)>>15;
+                int palette = (layoutValue&0x6000)>>13;
+                int vFlip = (layoutValue&0x1000)>>12;
+                int hFlip = (layoutValue&0x0800)>>11;
+                int tileId = (layoutValue&0x7FF);
                 if(tileId>=0&&tileId<vRamTiles.length){
-                    layoutTiles[i] = vRamTiles[tileId];
-                }else{
+                    Tile outputTile = vRamTiles[tileId];
+                    if(outputTile!=null&&palette!=0){
+                        outputTile = Tile.paletteSwap(outputTile,palettes[palette]);
+                    }
+                    if(outputTile!=null&&vFlip!=0){
+                        outputTile = Tile.vFlip(outputTile);
+                    }
+                    if(outputTile!=null&&hFlip!=0){
+                        outputTile = Tile.hFlip(outputTile);
+                    }
+                    layoutTiles[i] = outputTile;
+                }
+                if(layoutTiles[i]==null){
                     LOG.fine("Layout tile "+i+" : wrong tile id "+tileId);
                     layoutTiles[i] = baseTiles[0];
                 }
