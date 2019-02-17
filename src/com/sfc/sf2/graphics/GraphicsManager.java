@@ -123,7 +123,7 @@ public class GraphicsManager {
         paletteManager.importRom(palette4FilePath, palette4Offset,"32");
         palettes[3] = paletteManager.getPalette();
         //palette[0] = new Color(255, 255, 255, 0);
-        tiles = DisassemblyManager.importDisassemblyWithLayout(baseTilesetFilePath, palettes, tileset1FilePath, tileset2FilePath, compression, layoutFilePath);
+        tiles = DisassemblyManager.importDisassemblyWithLayout(baseTilesetFilePath, palettes, tileset1FilePath, tileset1Offset, tileset2FilePath, tileset2Offset, compression, layoutFilePath);
         LOG.exiting(LOG.getName(),"importDisassemblyWithLayout");
     }
 

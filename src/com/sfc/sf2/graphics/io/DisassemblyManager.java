@@ -110,16 +110,18 @@ public class DisassemblyManager {
         }
     }    
 
-    public static Tile[] importDisassemblyWithLayout(String baseTilesetPath, Color[][] palettes, String tileset1FilePath, String tileset2FilePath, int compression, String layoutPath){
+    public static Tile[] importDisassemblyWithLayout(String baseTilesetPath, Color[][] palettes, String tileset1FilePath, String tileset1Offset, String tileset2FilePath, String tileset2Offset, int compression, String layoutPath){
         LOG.entering(LOG.getName(),"importDisassemblyWithLayout");
         Tile[] baseTiles = DisassemblyManager.parseGraphics(baseTilesetPath, palettes[0], GraphicsManager.COMPRESSION_STACK); 
         Tile[] tileset1 = DisassemblyManager.parseGraphics(tileset1FilePath, palettes[0], compression); 
         Tile[] tileset2 = DisassemblyManager.parseGraphics(tileset2FilePath, palettes[0], compression); 
         Tile[] vRamTiles = new Tile[0x800];
         Tile[] tiles = null;
+        int t1offset = Integer.valueOf(tileset1Offset, 16) / 0x20;
+        int t2offset = Integer.valueOf(tileset2Offset, 16) / 0x20;
         System.arraycopy(baseTiles, 0, vRamTiles, 0, baseTiles.length);
-        System.arraycopy(tileset1, 0, vRamTiles, 0x100, tileset1.length);
-        System.arraycopy(tileset2, 0, vRamTiles, 0x580, tileset2.length);
+        System.arraycopy(tileset1, 0, vRamTiles, t1offset, tileset1.length);
+        System.arraycopy(tileset2, 0, vRamTiles, t2offset, tileset2.length);
         try {        
             Path path = Paths.get(layoutPath);
             byte[] data = Files.readAllBytes(path);
