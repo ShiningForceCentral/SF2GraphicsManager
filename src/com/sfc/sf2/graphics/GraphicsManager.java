@@ -126,5 +126,12 @@ public class GraphicsManager {
         tiles = DisassemblyManager.importDisassemblyWithLayout(baseTilesetFilePath, palettes, tileset1FilePath, tileset1Offset, tileset2FilePath, tileset2Offset, compression, layoutFilePath);
         LOG.exiting(LOG.getName(),"importDisassemblyWithLayout");
     }
+    
+    public void exportTilesAndLayout(String palettePath, String tilesPath, String layoutPath, String graphicsOffset, int compression, int palette){
+        LOG.entering(LOG.getName(),"exportTilesAndLayout");
+        paletteManager.exportDisassembly(palettePath, tiles[0].getPalette());
+        DisassemblyManager.exportTilesAndLayout(tiles, tilesPath, layoutPath, graphicsOffset, compression, palette);
+        LOG.exiting(LOG.getName(),"exportTilesAndLayout");    
+    }
 
 }

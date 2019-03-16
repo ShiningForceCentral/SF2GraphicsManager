@@ -20,6 +20,8 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -166,5 +168,47 @@ public class DisassemblyManager {
         bb.put(data[cursor]);
         short s = bb.getShort(0);
         return s;
-    }      
+    }  
+
+    public static void exportTilesAndLayout(Tile[] tiles, String tilesPath, String layoutPath, String graphicsOffset, int compression, int palette){
+        LOG.entering(LOG.getName(),"exportTilesAndLayout");
+        
+        int vramTileOffset = Integer.parseInt(graphicsOffset,16) / 0x20;
+        
+        try{
+            int tilesetIndex = -1;
+            byte[] layout = new byte[tiles.length*2];
+            List<Tile> tileset = new ArrayList();
+            for(int i=0;i<tiles.length;i++){
+                Tile tile = tiles[i];
+                for(int j=0;j<tileset.size();j++){
+                    Tile t = tileset.get(j);
+                    if(t.equals(tile)){
+                        tilesetIndex = j + vramTileOffset;
+                        break;
+                    }
+                }
+                if(tilesetIndex==-1){
+                    tileset.add(tile);
+                    tilesetIndex = tileset.size()-1+vramTileOffset;
+                }
+                layout[i*2] = (byte)(((tilesetIndex&0x700)>>8)&0xFF);
+                layout[i*2+1] = (byte)(tilesetIndex&0xFF);
+                tilesetIndex=-1;
+            }
+
+            Tile[] tilesetArray = new Tile[tileset.size()];
+            tilesetArray = tileset.toArray(tilesetArray);
+
+            DisassemblyManager.produceGraphics(tilesetArray, compression);
+            DisassemblyManager.writeFiles(tilesPath, compression);
+
+            Path layoutFilePath = Paths.get(layoutPath);
+            Files.write(layoutFilePath,layout);
+        }catch(Exception e){
+            LOG.throwing(LOG.getName(),"exportTilesAndLayout", e);
+        }
+        
+        LOG.exiting(LOG.getName(),"exportTilesAndLayout");        
+    }
 }

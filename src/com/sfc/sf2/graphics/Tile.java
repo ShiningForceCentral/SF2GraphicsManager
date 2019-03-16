@@ -149,4 +149,24 @@ public class Tile extends JPanel {
         return pltSwappedTile;
     }
     
+    @Override
+    public boolean equals(Object obj){
+        if(this==obj){
+            return true;
+        }
+        if(obj==null || obj.getClass() != this.getClass()){
+            return false;
+        }
+        Tile tile = (Tile) obj;
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(this.pixels[j][i]!=tile.pixels[j][i]){
+                    return false;
+                }
+            }
+        }
+        return true;        
+    }
+    
+    
 }
