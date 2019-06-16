@@ -23,7 +23,11 @@ public class DefaultLayout extends JPanel {
     private static final int DEFAULT_TILES_PER_ROW = 32;
     
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
+    private int displaySize = 1;
     private Tile[] tiles;
+    
+    BufferedImage currentImage;
+    private boolean redraw = true;
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -32,30 +36,36 @@ public class DefaultLayout extends JPanel {
     }
     
     public BufferedImage buildImage(){
-        BufferedImage image = buildImage(this.tiles,this.tilesPerRow);
-        setSize(image.getWidth(), image.getHeight());
-        return image;
+        if(redraw){
+            currentImage = buildImage(this.tiles,this.tilesPerRow);
+            setSize(currentImage.getWidth(), currentImage.getHeight());
+        }
+        return currentImage;
     }
     
-    public static BufferedImage buildImage(Tile[] tiles, int tilesPerRow){
+    public BufferedImage buildImage(Tile[] tiles, int tilesPerRow){
         int imageHeight = (tiles.length/tilesPerRow)*8;
         if(tiles.length%tilesPerRow!=0){
             imageHeight+=8;
         }
-        IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
-        BufferedImage image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_BINARY, icm);
-        Graphics graphics = image.getGraphics();
-        int i=0;
-        int j=0;
-        while(i*tilesPerRow+j<tiles.length){
-            while(j<tilesPerRow && i*tilesPerRow+j<tiles.length){
-                graphics.drawImage(tiles[i*tilesPerRow+j].getImage(), j*8, i*8, null);
-                j++;
+        if(redraw){
+            IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
+            currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_BINARY, icm);
+            Graphics graphics = currentImage.getGraphics();
+            int i=0;
+            int j=0;
+            while(i*tilesPerRow+j<tiles.length){
+                while(j<tilesPerRow && i*tilesPerRow+j<tiles.length){
+                    graphics.drawImage(tiles[i*tilesPerRow+j].getImage(), j*8, i*8, null);
+                    j++;
+                }
+                j=0;
+                i++;
             }
-            j=0;
-            i++;
+            redraw = false;
         }
-        return image;
+        currentImage = resize(currentImage);
+        return currentImage;
     }
     
     private static IndexColorModel buildIndexColorModel(Color[] colors){
@@ -75,7 +85,21 @@ public class DefaultLayout extends JPanel {
         }
         IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);
         return icm;
+    } 
+    
+    public void resize(int size){
+        this.displaySize = size;
+        currentImage = resize(currentImage);
+        this.redraw = true;
     }
+    
+    private BufferedImage resize(BufferedImage image){
+        BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = newImage.getGraphics();
+        g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
+        g.dispose();
+        return newImage;
+    }  
     
     @Override
     public Dimension getPreferredSize() {
@@ -88,6 +112,7 @@ public class DefaultLayout extends JPanel {
 
     public void setTiles(Tile[] tiles) {
         this.tiles = tiles;
+        redraw = true;
     }
     
     public int getTilesPerRow() {
@@ -96,6 +121,17 @@ public class DefaultLayout extends JPanel {
 
     public void setTilesPerRow(int tilesPerRow) {
         this.tilesPerRow = tilesPerRow;
+        redraw = true;
     }
+
+    public int getDisplaySize() {
+        return displaySize;
+    }
+
+    public void setDisplaySize(int displaySize) {
+        this.displaySize = displaySize;
+        redraw = true;
+    }
+    
     
 }

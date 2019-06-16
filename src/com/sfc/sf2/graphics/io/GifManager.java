@@ -115,7 +115,7 @@ public class GifManager {
         try {
             LOG.entering(LOG.getName(),"exportGif");
             int imageTileWidth = Integer.parseInt(tilesPerRow,10);
-            BufferedImage image = DefaultLayout.buildImage(tiles, imageTileWidth);
+            BufferedImage image = new DefaultLayout().buildImage(tiles, imageTileWidth);
             File outputfile = new File(filepath);
             LOG.fine("File path : "+outputfile.getAbsolutePath());
             ImageIO.write(image, "gif", outputfile);

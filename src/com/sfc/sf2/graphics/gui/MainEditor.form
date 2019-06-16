@@ -869,8 +869,8 @@
                                 <Container class="javax.swing.JPanel" name="jPanel18">
                                   <Constraints>
                                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                      <JTabbedPaneConstraints tabName="Disasm/Layout">
-                                        <Property name="tabTitle" type="java.lang.String" value="Disasm/Layout"/>
+                                      <JTabbedPaneConstraints tabName="Tiles/Layout">
+                                        <Property name="tabTitle" type="java.lang.String" value="Tiles/Layout"/>
                                       </JTabbedPaneConstraints>
                                     </Constraint>
                                   </Constraints>
@@ -943,17 +943,6 @@
                                                           </Group>
                                                       </Group>
                                                   </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField10" pref="257" max="32767" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField39" min="-2" pref="36" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jButton24" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
                                                   <Group type="102" alignment="1" attributes="0">
                                                       <EmptySpace min="0" pref="154" max="32767" attributes="0"/>
                                                       <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
@@ -973,16 +962,36 @@
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jButton31" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Group type="102" attributes="0">
+                                                              <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jTextField10" pref="257" max="32767" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" attributes="0">
+                                                              <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jTextField14" max="32767" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
                                                       <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField14" pref="0" max="32767" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField40" max="32767" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jButton30" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <Component id="jTextField40" max="32767" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jButton30" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <Component id="jTextField39" min="-2" pref="36" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jButton24" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
                                                   </Group>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
@@ -1119,7 +1128,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField10">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cspecialscreens\u005ctitlescreen\u005ctitletiles.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005cspecialscreens\u005ctitlescreen\u005ctitletiles.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField10ActionPerformed"/>
@@ -1142,7 +1151,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField19">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cspecialscreens\u005ctitlescreen\u005ctitlelayoutA.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005cspecialscreens\u005ctitlescreen\u005ctitlelayoutA.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField19ActionPerformed"/>
@@ -1163,7 +1172,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField24">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField24ActionPerformed"/>
@@ -1184,7 +1193,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField25">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005cbasetiles.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005cbasetiles.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField25ActionPerformed"/>
@@ -1218,7 +1227,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField27">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField27ActionPerformed"/>
@@ -1252,7 +1261,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField35">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField35ActionPerformed"/>
@@ -1286,7 +1295,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField37">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005cspecialscreens\u005ctitlescreen\u005ctitlepalettes.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField37ActionPerformed"/>
@@ -1333,7 +1342,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField14">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005ctech\u005cfonts\u005cstaticwidthfont.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005cfonts\u005cstaticwidthfont.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField14ActionPerformed"/>

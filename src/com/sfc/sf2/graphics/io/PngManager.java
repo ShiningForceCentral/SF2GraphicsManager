@@ -115,7 +115,7 @@ public class PngManager {
         try {
             LOG.entering(LOG.getName(),"exportPng");
             int imageTileWidth = Integer.parseInt(tilesPerRow,10);
-            BufferedImage image = DefaultLayout.buildImage(tiles, imageTileWidth);
+            BufferedImage image = new DefaultLayout().buildImage(tiles, imageTileWidth);
             File outputfile = new File(filepath);
             LOG.fine("File path : "+outputfile.getAbsolutePath());
             ImageIO.write(image, "png", outputfile);
