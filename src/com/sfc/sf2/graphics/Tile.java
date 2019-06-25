@@ -8,6 +8,8 @@ package com.sfc.sf2.graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
@@ -18,11 +20,14 @@ public class Tile extends JPanel {
     
     private int id;
     private Color[] palette;
+    private IndexColorModel icm;
     private int[][] pixels = new int[8][8];
     
     private boolean highPriority = false;
     private boolean hFlip = false;
     private boolean vFlip = false;
+    
+    private int occurrences = 0;
 
     public int[][] getPixels() {
         return pixels;
@@ -45,8 +50,23 @@ public class Tile extends JPanel {
 
     public void setPalette(Color[] palette) {
         this.palette = palette;
+        generateIcm();
     }
 
+    public void generateIcm(){
+        byte[] reds = new byte[16];
+        byte[] greens = new byte[16];
+        byte[] blues = new byte[16];
+        byte[] alphas = new byte[16];
+        for(int i=0;i<16;i++){
+            reds[i] = (byte)this.palette[i].getRed();
+            greens[i] = (byte)this.palette[i].getGreen();
+            blues[i] = (byte)this.palette[i].getBlue();
+            alphas[i] = (byte)0xFF;
+        }
+        icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
+    }
+    
     public boolean isHighPriority() {
         return highPriority;
     }
@@ -87,17 +107,17 @@ public class Tile extends JPanel {
     }    
     
     public BufferedImage getImage(){
-        BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_BYTE_BINARY, icm);
         for(int y=0;y<pixels.length;y++){
             for(int x=0;x<pixels[y].length;x++){
                 int colorIndex = pixels[x][y];
-                Color color = palette[colorIndex];
-                int rgbValue = color.getRGB();
-                image.setRGB(x,y,rgbValue);
+                    Color color = palette[colorIndex];
+                    int rgbValue = color.getRGB();
+                    image.setRGB(x,y,rgbValue);
             }
         } 
         return image;        
-    }
+    }    
     
     public static Tile vFlip(Tile tile){
         Tile flippedTile = new Tile();
@@ -166,6 +186,43 @@ public class Tile extends JPanel {
             }
         }
         return true;        
+    }
+    
+    public boolean equalsWithPriority(Object obj){
+        if(this==obj){
+            return true;
+        }
+        if(obj==null || obj.getClass() != this.getClass()){
+            return false;
+        }
+        Tile tile = (Tile) obj;
+        if(this.highPriority!=tile.isHighPriority()){
+            return false;
+        }
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(this.pixels[j][i]!=tile.pixels[j][i]){
+                    return false;
+                }
+            }
+        }
+        return true;        
+    }
+
+    public IndexColorModel getIcm() {
+        return icm;
+    }
+
+    public void setIcm(IndexColorModel icm) {
+        this.icm = icm;
+    }
+
+    public int getOccurrences() {
+        return occurrences;
+    }
+
+    public void setOccurrences(int occurrences) {
+        this.occurrences = occurrences;
     }
     
     

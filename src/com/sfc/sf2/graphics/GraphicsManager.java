@@ -44,7 +44,7 @@ public class GraphicsManager {
         LOG.finest("finest");
         paletteManager.importDisassembly(paletteFilePath);
         Color[] palette = paletteManager.getPalette();
-        palette[0] = new Color(255, 255, 255, 0);
+        //palette[0] = new Color(255, 255, 255, 0);
         tiles = DisassemblyManager.importDisassembly(graphicsFilePath, palette, compression);
         LOG.exiting(LOG.getName(),"importDisassembly");
     }
@@ -59,7 +59,7 @@ public class GraphicsManager {
         LOG.entering(LOG.getName(),"importOriginalRom");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
         Color[] palette = paletteManager.getPalette();
-        palette[0] = new Color(255, 255, 255, 0);
+        //palette[0] = new Color(255, 255, 255, 0);
         tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compression, palette);
         LOG.exiting(LOG.getName(),"importOriginalRom");
     }

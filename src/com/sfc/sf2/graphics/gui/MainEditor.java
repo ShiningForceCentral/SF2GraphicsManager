@@ -303,7 +303,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel8.setText("Palette file :");
 
-        jTextField8.setText(".\\tech\\segalogopalette.bin");
+        jTextField8.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\mappalettes\\mappalette00.bin");
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
@@ -326,7 +326,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel2.setText("<html>Select disassembly files.");
 
-        jTextField9.setText(".\\tech\\segalogo.bin");
+        jTextField9.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\maptilesets\\maptileset066.bin");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -344,7 +344,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel29.setText("Tile width :");
 
-        jTextField29.setText("32");
+        jTextField29.setText("16");
         jTextField29.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField29ActionPerformed(evt);
@@ -1270,7 +1270,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel15.setText("PNG File :");
 
-        jTextField15.setText(".\\tech\\segalogo.png");
+        jTextField15.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\maptilesets\\maptileset066.png");
         jTextField15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField15ActionPerformed(evt);
@@ -1295,7 +1295,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel28.setText("Tile width : ");
 
-        jTextField28.setText("32");
+        jTextField28.setText("16");
         jTextField28.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField28ActionPerformed(evt);
@@ -1347,7 +1347,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel17.setText("GIF File :");
 
-        jTextField17.setText(".\\tech\\segalogo.gif");
+        jTextField17.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\maptilesets\\maptileset000.gif");
         jTextField17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField17ActionPerformed(evt);
@@ -1365,7 +1365,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel35.setText("Tile width : ");
 
-        jTextField31.setText("32");
+        jTextField31.setText("16");
         jTextField31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField31ActionPerformed(evt);

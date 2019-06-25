@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.DataBuffer;
 import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
@@ -50,7 +51,7 @@ public class DefaultLayout extends JPanel {
         }
         if(redraw){
             IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
-            currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_BINARY, icm);
+            currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_INDEXED, icm);
             Graphics graphics = currentImage.getGraphics();
             int i=0;
             int j=0;
@@ -73,17 +74,13 @@ public class DefaultLayout extends JPanel {
         byte[] greens = new byte[16];
         byte[] blues = new byte[16];
         byte[] alphas = new byte[16];
-        reds[0] = (byte)0xFF;
-        greens[0] = (byte)0xFF;
-        blues[0] = (byte)0xFF;
-        alphas[0] = 0;
-        for(int i=1;i<16;i++){
+        for(int i=0;i<16;i++){
             reds[i] = (byte)colors[i].getRed();
             greens[i] = (byte)colors[i].getGreen();
             blues[i] = (byte)colors[i].getBlue();
             alphas[i] = (byte)0xFF;
         }
-        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);
+        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
         return icm;
     } 
     
@@ -94,7 +91,7 @@ public class DefaultLayout extends JPanel {
     }
     
     private BufferedImage resize(BufferedImage image){
-        BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_BYTE_INDEXED, (IndexColorModel)image.getColorModel());
         Graphics g = newImage.getGraphics();
         g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
         g.dispose();
