@@ -24,7 +24,8 @@ public class StackGraphicsEncoder {
                                                                                                 "1111101","1111110","111111100","111111101","111111110","1111111110","1111111111"}));    
     private static final int MAX_COPY_OFFSET = 2047;
     
-    private static byte[] newGraphicsFileBytes;  
+    private static byte[] newGraphicsFileBytes;
+    private static int newGraphicsFileUncompressedBytes;
     
     private static final Logger LOG = Logger.getLogger(StackGraphicsEncoder.class.getName());  
     
@@ -154,10 +155,15 @@ public class StackGraphicsEncoder {
         LOG.fine("output = " + bytesToHex(output));
         LOG.exiting(LOG.getName(),"produceGraphics");
         newGraphicsFileBytes = output;
+        newGraphicsFileUncompressedBytes = inputData.length;
     }
     
     public static byte[] getNewGraphicsFileBytes(){
         return newGraphicsFileBytes;
+    }
+    
+    public static int getNewGraphicsFileUncompressedBytes(){
+        return newGraphicsFileUncompressedBytes;
     }
     
     private static String getValueBitString(List<Integer> historyStack, short value){
