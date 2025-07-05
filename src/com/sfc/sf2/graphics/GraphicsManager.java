@@ -81,7 +81,7 @@ public class GraphicsManager {
     
     public void exportPng(String filepath, String tilesPerRow){
         LOG.entering(LOG.getName(),"exportPng");
-        PngManager.exportPng(tiles, filepath, tilesPerRow);
+        PngManager.exportPng(tiles, filepath, Integer.parseInt(tilesPerRow));
         LOG.exiting(LOG.getName(),"exportPng");       
     }    
     

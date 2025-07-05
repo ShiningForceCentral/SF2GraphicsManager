@@ -6,16 +6,14 @@
 package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
-import com.sfc.sf2.graphics.layout.DefaultLayout;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
@@ -37,7 +35,7 @@ public class PngManager {
 
     private static final Logger LOG = Logger.getLogger(PngManager.class.getName());
     
-    public static Tile[] importPng(String filepath){
+    public static Tile[] importPng(String filepath) {
         LOG.entering(LOG.getName(),"importPng");
         Tile[] tiles = null;
         try{
@@ -47,9 +45,9 @@ public class PngManager {
             if(!(cm instanceof IndexColorModel)){
                 LOG.warning("PNG FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
             }else{
-                IndexColorModel icm = (IndexColorModel) cm;
+                IndexColorModel icm = (IndexColorModel)cm;
                 Color[] palette = buildColors(icm);
-                Graphics g = img.getGraphics();
+                WritableRaster raster = img.getRaster();
                 
                 int imageWidth = img.getWidth();
                 int imageHeight = img.getHeight();
@@ -59,33 +57,25 @@ public class PngManager {
                     importedPngTileWidth = imageWidth/8;
                     tiles = new Tile[(imageWidth/8)*(imageHeight/8)];
                     int tileId = 0;
-                    for(int y=0;y<imageHeight;y+=8){
-                        for(int x=0;x<imageWidth;x+=8){
-                            LOG.fine("Building tile from coordinates "+x+":"+y);
-                            Tile tile = new Tile();
-                            tile.setId(tileId);
-                            tile.setPalette(palette);
-                            for(int j=0;j<8;j++){
-                                for(int i=0;i<8;i++){
-                                    Color color = new Color(img.getRGB(x+i,y+j));
-                                    for(int c=0;c<16;c++){
-                                        if(color.equals(palette[c])){
-                                            tile.setPixel(i, j, c);
-                                            break;
-                                        }
-                                    }
-                                }
+                    int[] pixels = new int[64];
+                    for(int t = 0; t < tiles.length; t++) {
+                        int x = t%importedPngTileWidth*8;
+                        int y = t/importedPngTileWidth*8;
+                        LOG.fine("Building tile from coordinates "+x+":"+y);
+                        Tile tile = new Tile();
+                        tile.setId(tileId);
+                        tile.setPalette(palette);
+                        raster.getPixels(x, y, 8, 8, pixels);
+                        for(int j=0;j<8;j++){
+                            for(int i=0;i<8;i++){
+                                tile.setPixel(i, j, pixels[i+j*8]);
                             }
-                            LOG.finest(tile.toString());
-                            tiles[tileId] = tile;   
-                            tileId++;
                         }
+                        LOG.finest(tile.toString());
+                        tiles[tileId] = tile;   
+                        tileId++;
                     }
                 }
-                
-
-                
-                
             }
         }catch(Exception e){
              LOG.throwing(LOG.getName(), "importPng", e);
@@ -111,11 +101,34 @@ public class PngManager {
         return colors;
     }
     
-    public static void exportPng(Tile[] tiles, String filepath, String tilesPerRow){
+    public static void exportPng(Tile[] tiles, String filepath, int tilesPerRow){
         try {
             LOG.entering(LOG.getName(),"exportPng");
-            int imageTileWidth = Integer.parseInt(tilesPerRow,10);
-            BufferedImage image = new DefaultLayout().buildImage(tiles, imageTileWidth);
+            int imageWidth = (tiles.length%tilesPerRow)*8;
+            int imageHeight = (tiles.length/tilesPerRow+1)*8;
+            BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_INDEXED, tiles[0].getIcm());
+            WritableRaster raster = image.getRaster();
+            
+            int[] pixels = new int[64];
+            for(int t = 0; t < tiles.length; t++) {
+                for(int j=0;j<8;j++){
+                    for(int i=0;i<8;i++){
+                        pixels[i+j*8] = tiles[i].getPixels()[i][j];
+                    }
+                }
+                int x = t%tilesPerRow*8;
+                int y = t/tilesPerRow*8;
+                raster.setPixels(x, y, 8, 8, pixels);
+            }
+            exportPng(image, filepath, tilesPerRow);
+        } catch (Exception ex) {
+            LOG.throwing(LOG.getName(),"exportPng", ex);
+        }
+    }
+    
+    public static void exportPng(BufferedImage image, String filepath, int tilesPerRow){
+        try {
+            LOG.entering(LOG.getName(),"exportPng");
             File outputfile = new File(filepath);
             LOG.fine("File path : "+outputfile.getAbsolutePath());
             ImageIO.write(image, "png", outputfile);
@@ -123,8 +136,5 @@ public class PngManager {
         } catch (Exception ex) {
             LOG.throwing(LOG.getName(),"exportPng", ex);
         }
-        
-                
     }
-    
 }
