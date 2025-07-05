@@ -6,13 +6,9 @@
 package com.sfc.sf2.graphics;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.IndexColorModel;
-import java.awt.image.WritableRaster;
 import javax.swing.JPanel;
 
 /**
@@ -104,7 +100,11 @@ public class Tile extends JPanel {
             }
         }
         return indexedColorImage;        
-    }  
+    }
+    
+    public void clearIndexedColorImage() {
+        indexedColorImage = null;
+    }
     
     public void drawIndexedColorPixels(BufferedImage image, int[][] pixels, int x, int y){
     }
