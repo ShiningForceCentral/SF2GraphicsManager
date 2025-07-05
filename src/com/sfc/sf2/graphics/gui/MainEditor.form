@@ -299,16 +299,18 @@
                                                       <Component id="jButton15" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" alignment="1" attributes="0">
-                                                      <Component id="jLabel2" pref="148" max="32767" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <EmptySpace max="32767" attributes="0"/>
                                                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField29" min="-2" pref="40" max="-2" attributes="0"/>
+                                                      <Component id="jTextField29" min="-2" pref="26" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="jLabel54" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jComboBox7" min="-2" pref="41" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                                       <Component id="jButton18" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
@@ -331,24 +333,16 @@
                                                   <Component id="jButton15" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Group type="103" groupAlignment="3" attributes="0">
-                                                          <Component id="jTextField29" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <Group type="103" groupAlignment="3" attributes="0">
-                                                          <Component id="jButton18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jComboBox1" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                                          <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
-                                                  </Group>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="jButton18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jComboBox1" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                                  <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jTextField29" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel54" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jComboBox7" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
+                                              <EmptySpace pref="201" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -361,7 +355,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField8">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmappalettes\u005cmappalette00.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cShiningForceCentral\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmappalettes\u005cmappalette06.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField8ActionPerformed"/>
@@ -383,14 +377,9 @@
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton18ActionPerformed"/>
                                       </Events>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel2">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="&lt;html&gt;Select disassembly files."/>
-                                      </Properties>
-                                    </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField9">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmaptilesets\u005cmaptileset066.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cShiningForceCentral\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmaptilesets\u005cmaptileset036.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField9ActionPerformed"/>
@@ -444,6 +433,31 @@
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Compression :"/>
                                       </Properties>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="jLabel54">
+                                      <Properties>
+                                        <Property name="text" type="java.lang.String" value="Size : "/>
+                                      </Properties>
+                                    </Component>
+                                    <Component class="javax.swing.JComboBox" name="jComboBox7">
+                                      <Properties>
+                                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                                          <StringArray count="4">
+                                            <StringItem index="0" value="x1"/>
+                                            <StringItem index="1" value="x2"/>
+                                            <StringItem index="2" value="x3"/>
+                                            <StringItem index="3" value="x4"/>
+                                          </StringArray>
+                                        </Property>
+                                        <Property name="selectedIndex" type="int" value="1"/>
+                                      </Properties>
+                                      <Events>
+                                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox7ItemStateChanged"/>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox7ActionPerformed"/>
+                                      </Events>
+                                      <AuxValues>
+                                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                                      </AuxValues>
                                     </Component>
                                   </SubComponents>
                                 </Container>
@@ -1458,7 +1472,7 @@
                                                   <Component id="jComboBox4" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace pref="85" max="32767" attributes="0"/>
+                                              <EmptySpace pref="86" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -1730,7 +1744,7 @@
                                     </Component>
                                     <Component class="javax.swing.JTextField" name="jTextField15">
                                       <Properties>
-                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmaptilesets\u005cmaptileset066.png" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cShiningForceCentral\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaptileset066-raster.png" containsInvalidXMLChars="true"/>
                                       </Properties>
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField15ActionPerformed"/>

@@ -6,9 +6,8 @@
 package com.sfc.sf2.graphics;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
 import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
@@ -18,10 +17,14 @@ import javax.swing.JPanel;
  */
 public class Tile extends JPanel {
     
+    public static final int PIXEL_WIDTH = 8;
+    public static final int PIXEL_HEIGHT = 8;
+    
     private int id;
     private Color[] palette;
     private IndexColorModel icm;
-    private int[][] pixels = new int[8][8];
+    private int[][] pixels = new int[PIXEL_HEIGHT][PIXEL_WIDTH];
+    private BufferedImage indexedColorImage = null;
     
     private boolean highPriority = false;
     private boolean hFlip = false;
@@ -49,8 +52,25 @@ public class Tile extends JPanel {
     }
 
     public void setPalette(Color[] palette) {
-        this.palette = palette;
+        this.palette = ensureTransparencyColorUnicity(palette);
         generateIcm();
+    }
+    
+    /*
+        Managing edge case of transparent color being identical to an opaque color in the palette,
+        preventing image rendering to use opaque color where needed.
+        In such case, now applying standard magenta as transparency color.
+    */
+    private Color[] ensureTransparencyColorUnicity(Color[] palette){
+        for(int i=1;i<palette.length;i++){
+            if(palette[0].getRed()==palette[i].getRed()
+                    && palette[0].getGreen()==palette[i].getGreen()
+                    && palette[0].getBlue()==palette[i].getBlue()
+                    ){
+                palette[0] = new Color(0xFF00FF, true);
+            }
+        }
+        return palette;        
     }
 
     public void generateIcm(){
@@ -64,7 +84,29 @@ public class Tile extends JPanel {
             blues[i] = (byte)this.palette[i].getBlue();
             alphas[i] = (byte)0xFF;
         }
+        alphas[0] = 0;
         icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
+    }
+
+    public BufferedImage getIndexedColorImage(){
+        if(indexedColorImage==null){
+            indexedColorImage = new BufferedImage(PIXEL_WIDTH, PIXEL_HEIGHT, BufferedImage.TYPE_BYTE_INDEXED, icm);
+            byte[] data = ((DataBufferByte)(indexedColorImage.getRaster().getDataBuffer())).getData();
+            int width = indexedColorImage.getWidth();
+            for(int i=0;i<pixels.length;i++){
+                for(int j=0;j<pixels[i].length;j++){
+                    data[j*width+i] = (byte)(pixels[i][j]);
+                }
+            }
+        }
+        return indexedColorImage;        
+    }
+    
+    public void clearIndexedColorImage() {
+        indexedColorImage = null;
+    }
+    
+    public void drawIndexedColorPixels(BufferedImage image, int[][] pixels, int x, int y){
     }
     
     public boolean isHighPriority() {
@@ -93,31 +135,41 @@ public class Tile extends JPanel {
     
     public Tile(){
         setSize(8,8);
-
     }
     
     public void setPixel(int x, int y, int colorIndex){
         this.pixels[x][y] = colorIndex;
     }
     
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);   
-        g.drawImage(getImage(), 0, 0, this);       
-    }    
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        super.paintComponent(g);   
+//        g.drawImage(getImage(), 0, 0, this);       
+//    }    
     
-    public BufferedImage getImage(){
-        BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_BYTE_BINARY, icm);
-        for(int y=0;y<pixels.length;y++){
-            for(int x=0;x<pixels[y].length;x++){
-                int colorIndex = pixels[x][y];
-                    Color color = palette[colorIndex];
-                    int rgbValue = color.getRGB();
-                    image.setRGB(x,y,rgbValue);
-            }
-        } 
-        return image;        
-    }    
+//    public BufferedImage getImage(){
+//        BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_BYTE_INDEXED, icm);
+//        WritableRaster wr = image.getRaster();
+//        Graphics2D g2d = image.createGraphics();
+//        g2d.setPaintMode();
+//        for(int y=0;y<pixels.length;y++){
+//            for(int x=0;x<pixels[y].length;x++){
+//                int colorIndex = pixels[x][y];
+//                    Color color = palette[colorIndex];
+//                    /*int rgbValue = color.getRGB();
+//                    image.setRGB(x,y,rgbValue);*/
+//                    /*int[] pixel = new int[4];
+//                    pixel[0] = color.getRed();
+//                    pixel[1] = color.getGreen();
+//                    pixel[2] = color.getBlue();
+//                    pixel[3] = color.getAlpha();
+//                    wr.setPixel(x, y, pixel);*/
+//                    g2d.setColor(color);
+//                    g2d.drawRect(x, y, 1, 1);
+//            }
+//        } 
+//        return image;        
+//    }    
     
     public static Tile vFlip(Tile tile){
         Tile flippedTile = new Tile();
