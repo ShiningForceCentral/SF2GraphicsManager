@@ -78,9 +78,9 @@ public class GraphicsManager {
         return tileWidth;
     }
     
-    public void exportPng(String filepath, String tilesPerRow){
+    public void exportPng(String filepath, int tilesPerRow){
         LOG.entering(LOG.getName(),"exportPng");
-        RawImageManager.exportImage(tiles, filepath, Integer.parseInt(tilesPerRow), RawImageManager.FILE_FORMAT_PNG);
+        RawImageManager.exportImage(tiles, filepath, tilesPerRow, RawImageManager.FILE_FORMAT_PNG);
         LOG.exiting(LOG.getName(),"exportPng");       
     }    
     
@@ -93,9 +93,9 @@ public class GraphicsManager {
         return tileWidth;
     }
     
-    public void exportGif(String filepath, String tilesPerRow){
+    public void exportGif(String filepath, int tilesPerRow){
         LOG.entering(LOG.getName(),"exportGif");
-        RawImageManager.exportImage(tiles, filepath, Integer.parseInt(tilesPerRow), RawImageManager.FILE_FORMAT_GIF);
+        RawImageManager.exportImage(tiles, filepath, tilesPerRow, RawImageManager.FILE_FORMAT_GIF);
         LOG.exiting(LOG.getName(),"exportGif");       
     }
        

@@ -1666,7 +1666,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        graphicsManager.exportPng(jTextField15.getText(), jTextField28.getText());
+        graphicsManager.exportPng(jTextField15.getText(), Integer.parseInt(jTextField28.getText()));
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
@@ -1873,7 +1873,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField31ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        graphicsManager.exportGif(jTextField17.getText(), jTextField31.getText());
+        graphicsManager.exportGif(jTextField17.getText(), Integer.parseInt(jTextField31.getText()));
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
