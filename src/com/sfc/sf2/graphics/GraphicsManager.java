@@ -6,8 +6,7 @@
 package com.sfc.sf2.graphics;
 
 import com.sfc.sf2.graphics.io.DisassemblyManager;
-import com.sfc.sf2.graphics.io.PngManager;
-import com.sfc.sf2.graphics.io.GifManager;
+import com.sfc.sf2.graphics.io.RawImageManager;
 import com.sfc.sf2.graphics.io.RomManager;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
@@ -72,31 +71,31 @@ public class GraphicsManager {
     
     public int importPng(String filepath){
         LOG.entering(LOG.getName(),"importPng");
-        tiles = PngManager.importPng(filepath);
+        tiles = RawImageManager.importImage(filepath);
         paletteManager.setPalette(tiles[0].getPalette());
-        int tileWidth = PngManager.getImportedPngTileWidth();
+        int tileWidth = RawImageManager.getImportedImageTileWidth();
         LOG.exiting(LOG.getName(),"importPng");
         return tileWidth;
     }
     
     public void exportPng(String filepath, String tilesPerRow){
         LOG.entering(LOG.getName(),"exportPng");
-        PngManager.exportPng(tiles, filepath, Integer.parseInt(tilesPerRow));
+        RawImageManager.exportImage(tiles, filepath, Integer.parseInt(tilesPerRow), RawImageManager.FILE_FORMAT_PNG);
         LOG.exiting(LOG.getName(),"exportPng");       
     }    
     
     public int importGif(String filepath){
         LOG.entering(LOG.getName(),"importGif");
-        tiles = GifManager.importGif(filepath);
+        tiles = RawImageManager.importImage(filepath);
         paletteManager.setPalette(tiles[0].getPalette());
-        int tileWidth = GifManager.getImportedGifTileWidth();
+        int tileWidth = RawImageManager.getImportedImageTileWidth();
         LOG.exiting(LOG.getName(),"importGif");
         return tileWidth;
     }
     
     public void exportGif(String filepath, String tilesPerRow){
         LOG.entering(LOG.getName(),"exportGif");
-        GifManager.exportGif(tiles, filepath, tilesPerRow);
+        RawImageManager.exportImage(tiles, filepath, Integer.parseInt(tilesPerRow), RawImageManager.FILE_FORMAT_GIF);
         LOG.exiting(LOG.getName(),"exportGif");       
     }
        
