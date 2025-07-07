@@ -136,23 +136,24 @@ public class RawImageManager {
     public static void exportImage(BufferedImage image, String filepath, int tilesPerRow, int fileFormat){
         try {
             LOG.entering(LOG.getName(),"exportImage");
-            String format = null;
-            switch (fileFormat) {
-                case FILE_FORMAT_PNG:
-                    format = "png";
-                    break;
-                case FILE_FORMAT_GIF:
-                    format = "gif";
-                    break;
-                default:
-                    LOG.throwing(LOG.getName(),"UNKNOWN FILE FORMAT", new IOException());
-            }
             File outputfile = new File(filepath);
             LOG.fine("File path : "+outputfile.getAbsolutePath());
-            ImageIO.write(image, "png", outputfile);
+            ImageIO.write(image, GetFileExtensionString(fileFormat), outputfile);
             LOG.exiting(LOG.getName(),"exportImage");
         } catch (Exception ex) {
             LOG.throwing(LOG.getName(),"exportImage", ex);
+        }
+    }
+    
+    public static String GetFileExtensionString(int fileFormat) {
+        switch (fileFormat) {
+            case FILE_FORMAT_PNG:
+                return "png";
+            case FILE_FORMAT_GIF:
+                return "gif";
+            default:
+                LOG.throwing(LOG.getName(),"UNKNOWN FILE FORMAT", new IOException());
+                return "bin";
         }
     }
 }
