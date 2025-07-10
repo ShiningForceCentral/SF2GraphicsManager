@@ -10,8 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
 import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
@@ -24,11 +22,13 @@ public class DefaultLayout extends JPanel {
     private static final int DEFAULT_TILES_PER_ROW = 32;
     
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
-    private int displaySize = 1;
     private Tile[] tiles;
     
     BufferedImage currentImage;
     private boolean redraw = true;
+    
+    private int displaySize = 1;
+    private boolean showGrid = false;
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -40,6 +40,7 @@ public class DefaultLayout extends JPanel {
         if(redraw){
             currentImage = buildImage(this.tiles,this.tilesPerRow);
             setSize(currentImage.getWidth(), currentImage.getHeight());
+            if (showGrid) { drawGrid(currentImage); }
         }
         return currentImage;
     }
@@ -82,7 +83,25 @@ public class DefaultLayout extends JPanel {
         }
         IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
         return icm;
-    } 
+    }
+    
+    private void drawGrid(BufferedImage image) {
+        Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.BLACK);
+        int x = 0;
+        int y = 0;
+        while (x < image.getWidth()) {
+            graphics.drawLine(x, 0, x, image.getHeight());
+            x += 8*displaySize;
+        }
+        graphics.drawLine(x-1, 0, x-1, image.getHeight());
+        while (y < image.getHeight()) {
+            graphics.drawLine(0, y, image.getWidth(), y);
+            y += 8*displaySize;
+        }
+        graphics.drawLine(0, y-1, image.getWidth(), y-1);
+        graphics.dispose();
+    }
     
     public void resize(int size){
         this.displaySize = size;
@@ -91,6 +110,8 @@ public class DefaultLayout extends JPanel {
     }
     
     private BufferedImage resize(BufferedImage image){
+        if (displaySize == 1)
+            return image;
         BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_BYTE_INDEXED, (IndexColorModel)image.getColorModel());
         Graphics g = newImage.getGraphics();
         g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
@@ -129,6 +150,9 @@ public class DefaultLayout extends JPanel {
         this.displaySize = displaySize;
         redraw = true;
     }
-    
-    
+
+    public void setShowGrid(boolean showGrid) {
+        this.showGrid = showGrid;
+        redraw = true;
+    } 
 }
