@@ -58,7 +58,7 @@ public class DefaultLayout extends JPanel {
             int j=0;
             while(i*tilesPerRow+j<tiles.length){
                 while(j<tilesPerRow && i*tilesPerRow+j<tiles.length){
-                    graphics.drawImage(tiles[i*tilesPerRow+j].getImage(), j*8, i*8, null);
+                    graphics.drawImage(tiles[i*tilesPerRow+j].getIndexedColorImage(), j*8, i*8, null);
                     j++;
                 }
                 j=0;
