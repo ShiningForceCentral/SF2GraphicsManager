@@ -9,12 +9,7 @@ import com.sfc.sf2.graphics.Tile;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
 import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
@@ -27,11 +22,13 @@ public class DefaultLayout extends JPanel {
     private static final int DEFAULT_TILES_PER_ROW = 32;
     
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
-    private int displaySize = 1;
     private Tile[] tiles;
     
     BufferedImage currentImage;
     private boolean redraw = true;
+    
+    private int displaySize = 1;
+    private boolean showGrid = false;
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -43,24 +40,25 @@ public class DefaultLayout extends JPanel {
         if(redraw){
             currentImage = buildImage(this.tiles,this.tilesPerRow);
             setSize(currentImage.getWidth(), currentImage.getHeight());
+            if (showGrid) { drawGrid(currentImage); }
         }
         return currentImage;
     }
     
     public BufferedImage buildImage(Tile[] tiles, int tilesPerRow){
-        int imageHeight = (tiles.length/tilesPerRow)*Tile.PIXEL_HEIGHT;
+        int imageHeight = (tiles.length/tilesPerRow)*8;
         if(tiles.length%tilesPerRow!=0){
-            imageHeight+=Tile.PIXEL_HEIGHT;
+            imageHeight+=8;
         }
-        int imageWidth = tilesPerRow*Tile.PIXEL_WIDTH;
         if(redraw){
             IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
-            currentImage = new BufferedImage(imageWidth*displaySize, imageHeight*displaySize, BufferedImage.TYPE_BYTE_INDEXED, icm);
+            currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_INDEXED, icm);
+            Graphics graphics = currentImage.getGraphics();
             int i=0;
             int j=0;
             while(i*tilesPerRow+j<tiles.length){
                 while(j<tilesPerRow && i*tilesPerRow+j<tiles.length){
-                    drawIndexedColorPixels(currentImage, tiles[i*tilesPerRow+j].getPixels(), j*Tile.PIXEL_WIDTH*displaySize,  i*Tile.PIXEL_HEIGHT*displaySize, displaySize);
+                    graphics.drawImage(tiles[i*tilesPerRow+j].getImage(), j*8, i*8, null);
                     j++;
                 }
                 j=0;
@@ -68,21 +66,8 @@ public class DefaultLayout extends JPanel {
             }
             redraw = false;
         }
+        currentImage = resize(currentImage);
         return currentImage;
-    }
-    
-    public void drawIndexedColorPixels(BufferedImage image, int[][] pixels, int x, int y, int size){
-        byte[] data = ((DataBufferByte)(image.getRaster().getDataBuffer())).getData();
-        int width = image.getWidth();
-        for(int i=0;i<pixels.length;i++){
-            for(int j=0;j<pixels[i].length;j++){
-                for(int ys=0;ys<size;ys++){
-                    for(int xs=0;xs<size;xs++){
-                        data[(y+j*size+ys)*width+x+i*size+xs] = (byte)(pixels[i][j]);
-                    }
-                }
-            }
-        }
     }
     
     private static IndexColorModel buildIndexColorModel(Color[] colors){
@@ -96,10 +81,43 @@ public class DefaultLayout extends JPanel {
             blues[i] = (byte)colors[i].getBlue();
             alphas[i] = (byte)0xFF;
         }
-        alphas[0] = 0;
         IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
         return icm;
-    } 
+    }
+    
+    private void drawGrid(BufferedImage image) {
+        Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.BLACK);
+        int x = 0;
+        int y = 0;
+        while (x < image.getWidth()) {
+            graphics.drawLine(x, 0, x, image.getHeight());
+            x += 8*displaySize;
+        }
+        graphics.drawLine(x-1, 0, x-1, image.getHeight());
+        while (y < image.getHeight()) {
+            graphics.drawLine(0, y, image.getWidth(), y);
+            y += 8*displaySize;
+        }
+        graphics.drawLine(0, y-1, image.getWidth(), y-1);
+        graphics.dispose();
+    }
+    
+    public void resize(int size){
+        this.displaySize = size;
+        currentImage = resize(currentImage);
+        this.redraw = true;
+    }
+    
+    private BufferedImage resize(BufferedImage image){
+        if (displaySize == 1)
+            return image;
+        BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_BYTE_INDEXED, (IndexColorModel)image.getColorModel());
+        Graphics g = newImage.getGraphics();
+        g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
+        g.dispose();
+        return newImage;
+    }  
     
     @Override
     public Dimension getPreferredSize() {
@@ -132,6 +150,9 @@ public class DefaultLayout extends JPanel {
         this.displaySize = displaySize;
         redraw = true;
     }
-    
-    
+
+    public void setShowGrid(boolean showGrid) {
+        this.showGrid = showGrid;
+        redraw = true;
+    } 
 }
