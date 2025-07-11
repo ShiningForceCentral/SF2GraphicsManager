@@ -245,7 +245,7 @@
                                     <Component class="javax.swing.JTextField" name="jTextField8">
                                       <Properties>
                                         <Property name="horizontalAlignment" type="int" value="11"/>
-                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmappalettes\u005cmappalette00.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogopalette.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
                                     </Component>
                                     <Component class="javax.swing.JButton" name="jButton14">
@@ -272,8 +272,11 @@
                                     <Component class="javax.swing.JTextField" name="jTextField9">
                                       <Properties>
                                         <Property name="horizontalAlignment" type="int" value="11"/>
-                                        <Property name="text" type="java.lang.String" value="C:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cmaps\u005cmaptilesets\u005cmaptileset066.bin" containsInvalidXMLChars="true"/>
+                                        <Property name="text" type="java.lang.String" value=".\u005ctech\u005csegalogotiles.bin" containsInvalidXMLChars="true"/>
                                       </Properties>
+                                      <Events>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField9ActionPerformed"/>
+                                      </Events>
                                     </Component>
                                     <Component class="javax.swing.JLabel" name="jLabel10">
                                       <Properties>

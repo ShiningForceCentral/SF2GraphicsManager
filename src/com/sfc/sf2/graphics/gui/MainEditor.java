@@ -245,7 +245,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel8.setText("Palette file :");
 
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField8.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\mappalettes\\mappalette00.bin");
+        jTextField8.setText(".\\tech\\segalogopalette.bin");
 
         jButton14.setText("File...");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
@@ -264,7 +264,12 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel2.setText("<html>Select disassembly files.");
 
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField9.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\maptilesets\\maptileset066.bin");
+        jTextField9.setText(".\\tech\\segalogotiles.bin");
+        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField9ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Graphics file :");
 
@@ -1770,6 +1775,10 @@ public class MainEditor extends javax.swing.JFrame {
             jTextField8.setText(file.getAbsolutePath());
         }
     }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField9ActionPerformed
 
     void updateInterface() {
         jPanel2.setLayout(new GridLayout(1,1));

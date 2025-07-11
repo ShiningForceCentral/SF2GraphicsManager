@@ -82,7 +82,7 @@ public class Tile extends JPanel {
             reds[i] = (byte)this.palette[i].getRed();
             greens[i] = (byte)this.palette[i].getGreen();
             blues[i] = (byte)this.palette[i].getBlue();
-            alphas[i] = (byte)0xFF;
+            alphas[i] = (byte)this.palette[i].getAlpha();
         }
         alphas[0] = 0;
         icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
