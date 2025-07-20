@@ -51,7 +51,7 @@ public class DefaultLayout extends JPanel {
             imageHeight+=8;
         }
         if(redraw){
-            IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
+            IndexColorModel icm = tiles[0].getPalette().buildICM();
             currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_INDEXED, icm);
             Graphics graphics = currentImage.getGraphics();
             int i=0;
@@ -68,21 +68,6 @@ public class DefaultLayout extends JPanel {
         }
         currentImage = resize(currentImage);
         return currentImage;
-    }
-    
-    private static IndexColorModel buildIndexColorModel(Color[] colors){
-        byte[] reds = new byte[16];
-        byte[] greens = new byte[16];
-        byte[] blues = new byte[16];
-        byte[] alphas = new byte[16];
-        for(int i=0;i<16;i++){
-            reds[i] = (byte)colors[i].getRed();
-            greens[i] = (byte)colors[i].getGreen();
-            blues[i] = (byte)colors[i].getBlue();
-            alphas[i] = (byte)0xFF;
-        }
-        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
-        return icm;
     }
     
     private void drawGrid(BufferedImage image) {

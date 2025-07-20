@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.graphics;
 
+import com.sfc.sf2.palette.Palette;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -21,7 +22,7 @@ public class Tile extends JPanel {
     public static final int PIXEL_HEIGHT = 8;
     
     private int id;
-    private Color[] palette;
+    private Palette palette;
     private IndexColorModel icm;
     private int[][] pixels = new int[PIXEL_HEIGHT][PIXEL_WIDTH];
     private BufferedImage indexedColorImage = null;
@@ -47,13 +48,14 @@ public class Tile extends JPanel {
     public void setId(int id) {
         this.id = id;
     }    
-    public Color[] getPalette() {
+    public Palette getPalette() {
         return palette;
     }
 
-    public void setPalette(Color[] palette) {
-        this.palette = ensureTransparencyColorUnicity(palette);
-        generateIcm();
+    public void setPalette(Palette palette) {
+        this.palette = palette;
+        ensureUniqueTransparencyColor(palette);
+        icm = palette.buildICM();
     }
     
     /*
@@ -61,31 +63,16 @@ public class Tile extends JPanel {
         preventing image rendering to use opaque color where needed.
         In such case, now applying standard magenta as transparency color.
     */
-    private Color[] ensureTransparencyColorUnicity(Color[] palette){
-        for(int i=1;i<palette.length;i++){
-            if(palette[0].getRed()==palette[i].getRed()
-                    && palette[0].getGreen()==palette[i].getGreen()
-                    && palette[0].getBlue()==palette[i].getBlue()
+    private void ensureUniqueTransparencyColor(Palette palette){
+        Color[] colors = palette.getColors();
+        for(int i=1;i<colors.length;i++){
+            if(colors[0].getRed()==colors[i].getRed()
+                    && colors[0].getGreen()==colors[i].getGreen()
+                    && colors[0].getBlue()==colors[i].getBlue()
                     ){
-                palette[0] = new Color(0xFF00FF, true);
+                colors[0] = new Color(0xFF00FF, true);
             }
         }
-        return palette;        
-    }
-
-    public void generateIcm(){
-        byte[] reds = new byte[16];
-        byte[] greens = new byte[16];
-        byte[] blues = new byte[16];
-        byte[] alphas = new byte[16];
-        for(int i=0;i<16;i++){
-            reds[i] = (byte)this.palette[i].getRed();
-            greens[i] = (byte)this.palette[i].getGreen();
-            blues[i] = (byte)this.palette[i].getBlue();
-            alphas[i] = (byte)this.palette[i].getAlpha();
-        }
-        alphas[0] = 0;
-        icm = new IndexColorModel(4,16,reds,greens,blues,alphas);       
     }
 
     public BufferedImage getIndexedColorImage(){
@@ -211,7 +198,7 @@ public class Tile extends JPanel {
         return sb.toString();
     }
     
-    public static Tile paletteSwap(Tile tile, Color[] palette){
+    public static Tile paletteSwap(Tile tile, Palette palette){
         Tile pltSwappedTile = new Tile();
         pltSwappedTile.setPixels(tile.getPixels());
         pltSwappedTile.setHighPriority(tile.isHighPriority());

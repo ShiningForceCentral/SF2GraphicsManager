@@ -6,7 +6,7 @@
 package com.sfc.sf2.graphics.uncompressed;
 
 import com.sfc.sf2.graphics.Tile;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 import java.util.logging.Logger;
 
 /**
@@ -17,7 +17,7 @@ public class UncompressedGraphicsDecoder {
 
     private static final Logger LOG = Logger.getLogger(UncompressedGraphicsDecoder.class.getName());    
     
-    public static Tile[] decodeUncompressedGraphics(byte[] data, Color[] palette){
+    public static Tile[] decodeUncompressedGraphics(byte[] data, Palette palette){
         LOG.entering(LOG.getName(),"decodeUncompressedGraphics");
         LOG.fine("Data length = " + data.length + ", -> expecting " + data.length/32 + " tiles to parse.");
         Tile[] tiles = new Tile[data.length/32];
@@ -40,5 +40,4 @@ public class UncompressedGraphicsDecoder {
         LOG.exiting(LOG.getName(),"decodeUncompressedGraphics");
         return tiles;
     }
-    
 }

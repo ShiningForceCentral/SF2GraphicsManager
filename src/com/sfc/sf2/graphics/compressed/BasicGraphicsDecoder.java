@@ -7,7 +7,7 @@ package com.sfc.sf2.graphics.compressed;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.uncompressed.*;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class BasicGraphicsDecoder {
 
     private static final Logger LOG = Logger.getLogger(BasicGraphicsDecoder.class.getName());
     
-    public static Tile[] decodeBasicGraphics(byte[] input, Color[] palette){
+    public static Tile[] decodeBasicGraphics(byte[] input, Palette palette){
         LOG.entering(LOG.getName(),"decodeBasicGraphics");
         LOG.fine("Data length = " + input.length + " bytes.");
         List<Byte> output = new ArrayList();
@@ -107,6 +107,5 @@ public class BasicGraphicsDecoder {
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
-    }    
-    
+    }
 }

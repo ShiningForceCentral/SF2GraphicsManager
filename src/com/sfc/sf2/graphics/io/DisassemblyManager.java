@@ -13,7 +13,7 @@ import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -33,7 +33,7 @@ public class DisassemblyManager {
 
     private static final Logger LOG = Logger.getLogger(DisassemblyManager.class.getName());
     
-    public static Tile[] importDisassembly(String filePath, Color[] palette, int compression){
+    public static Tile[] importDisassembly(String filePath, Palette palette, int compression){
         LOG.entering(LOG.getName(),"importDisassembly");
         Tile[] tiles = DisassemblyManager.parseGraphics(filePath, palette, compression);        
         LOG.exiting(LOG.getName(),"importDisassembly");
@@ -47,7 +47,7 @@ public class DisassemblyManager {
         LOG.exiting(LOG.getName(),"exportDisassembly");        
     }    
     
-    private static Tile[] parseGraphics(String filePath, Color[] palette, int compression){
+    private static Tile[] parseGraphics(String filePath, Palette palette, int compression){
         LOG.entering(LOG.getName(),"parseGraphics");
         Tile[] tiles = null;       
         try{
@@ -112,7 +112,7 @@ public class DisassemblyManager {
         }
     }    
 
-    public static Tile[] importDisassemblyWithLayout(String baseTilesetPath, Color[][] palettes, String tileset1FilePath, String tileset1Offset, String tileset2FilePath, String tileset2Offset, int compression, String layoutPath){
+    public static Tile[] importDisassemblyWithLayout(String baseTilesetPath, Palette[] palettes, String tileset1FilePath, String tileset1Offset, String tileset2FilePath, String tileset2Offset, int compression, String layoutPath){
         LOG.entering(LOG.getName(),"importDisassemblyWithLayout");
         Tile[] baseTiles = DisassemblyManager.parseGraphics(baseTilesetPath, palettes[0], GraphicsManager.COMPRESSION_STACK); 
         Tile[] tileset1 = DisassemblyManager.parseGraphics(tileset1FilePath, palettes[0], compression); 

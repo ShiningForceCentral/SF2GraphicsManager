@@ -7,7 +7,7 @@ package com.sfc.sf2.graphics.compressed;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.uncompressed.*;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class StackGraphicsDecoder {
     
     private List<Integer> historyStack = new ArrayList<Integer>(Arrays.asList(new Integer[] {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}));
     
-    public Tile[] decodeStackGraphics(byte[] input, Color[] palette){
+    public Tile[] decodeStackGraphics(byte[] input, Palette palette){
         LOG.entering(LOG.getName(),"decodeStackGraphics");
         LOG.fine("Data length = " + input.length + " bytes.");
         this.inputData = input;

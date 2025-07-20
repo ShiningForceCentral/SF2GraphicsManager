@@ -6,6 +6,7 @@
 package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
+import com.sfc.sf2.palette.Palette;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -50,7 +51,9 @@ public class RawImageManager {
                 LOG.warning("PNG FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
             }else{
                 IndexColorModel icm = (IndexColorModel)cm;
-                Color[] palette = buildColors(icm);
+                String filename = path.getFileName().toString();
+                filename = filename.substring(0, filename.lastIndexOf("."));
+                Palette palette = new Palette(filename, Palette.fromICM(icm));
                 WritableRaster raster = img.getRaster();
                 
                 int imageWidth = img.getWidth();

@@ -13,14 +13,13 @@ import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsDecoder;
 import com.sfc.sf2.graphics.uncompressed.UncompressedGraphicsEncoder;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -34,7 +33,7 @@ public class RomManager {
 
     private static final Logger LOG = Logger.getLogger(RomManager.class.getName());
     
-    public static Tile[] importRom(String romFilePath, String graphicsOffset, String graphicsLength, int compression, Color[] palette){
+    public static Tile[] importRom(String romFilePath, String graphicsOffset, String graphicsLength, int compression, Palette palette){
         LOG.entering(LOG.getName(),"importRom");
         RomManager.openFile(romFilePath);
         int offset = Integer.parseInt(graphicsOffset,16);
@@ -64,7 +63,7 @@ public class RomManager {
         }
     }
     
-    private static Tile[] parseGraphics(int graphicsOffset, int graphicsLength, int compression, Color[] palette){
+    private static Tile[] parseGraphics(int graphicsOffset, int graphicsLength, int compression, Palette palette){
         LOG.entering(LOG.getName(),"parseGraphics");
         byte[] data = Arrays.copyOfRange(romData,graphicsOffset,graphicsOffset+graphicsLength);        
         Tile[] tiles = null;

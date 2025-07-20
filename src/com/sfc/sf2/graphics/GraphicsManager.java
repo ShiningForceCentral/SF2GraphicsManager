@@ -8,6 +8,7 @@ package com.sfc.sf2.graphics;
 import com.sfc.sf2.graphics.io.DisassemblyManager;
 import com.sfc.sf2.graphics.io.RawImageManager;
 import com.sfc.sf2.graphics.io.RomManager;
+import com.sfc.sf2.palette.Palette;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
 import java.util.logging.Logger;
@@ -42,8 +43,7 @@ public class GraphicsManager {
         LOG.finer("finer");
         LOG.finest("finest");
         paletteManager.importDisassembly(paletteFilePath);
-        Color[] palette = paletteManager.getPalette();
-        //palette[0] = new Color(255, 255, 255, 0);
+        Palette palette = paletteManager.getPalette();
         tiles = DisassemblyManager.importDisassembly(graphicsFilePath, palette, compression);
         LOG.exiting(LOG.getName(),"importDisassembly");
     }
@@ -57,8 +57,7 @@ public class GraphicsManager {
     public void importRom(String romFilePath, String paletteOffset, String paletteLength, String graphicsOffset, String graphicsLength, int compression){
         LOG.entering(LOG.getName(),"importOriginalRom");
         paletteManager.importRom(romFilePath, paletteOffset, paletteLength);
-        Color[] palette = paletteManager.getPalette();
-        //palette[0] = new Color(255, 255, 255, 0);
+        Palette palette = paletteManager.getPalette();
         tiles = RomManager.importRom(romFilePath, graphicsOffset, graphicsLength, compression, palette);
         LOG.exiting(LOG.getName(),"importOriginalRom");
     }
@@ -100,19 +99,19 @@ public class GraphicsManager {
     }
        
     public void importDisassemblyWithLayout(String baseTilesetFilePath, 
-            String palette1FilePath, String palette1Offset,
-            String palette2FilePath, String palette2Offset,
-            String palette3FilePath, String palette3Offset,
-            String palette4FilePath, String palette4Offset,
-            String tileset1FilePath, String tileset1Offset,
-            String tileset2FilePath, String tileset2Offset,
-            String layoutFilePath, int compression){
+        String palette1FilePath, String palette1Offset,
+        String palette2FilePath, String palette2Offset,
+        String palette3FilePath, String palette3Offset,
+        String palette4FilePath, String palette4Offset,
+        String tileset1FilePath, String tileset1Offset,
+        String tileset2FilePath, String tileset2Offset,
+        String layoutFilePath, int compression){
         LOG.entering(LOG.getName(),"importDisassemblyWithLayout");
         LOG.info("info");
         LOG.fine("fine");
         LOG.finer("finer");
         LOG.finest("finest");
-        Color[][] palettes = new Color[4][];
+        Palette[] palettes = new Palette[4];
         paletteManager.importRom(palette1FilePath, palette1Offset,"32");
         palettes[0] = paletteManager.getPalette();
         paletteManager.importRom(palette2FilePath, palette2Offset,"32");
