@@ -54,8 +54,11 @@ public class Tile extends JPanel {
 
     public void setPalette(Palette palette) {
         this.palette = palette;
-        ensureUniqueTransparencyColor(palette);
-        icm = palette.buildICM();
+        icm = null;
+        if (palette != null) {
+            ensureUniqueTransparencyColor(palette);
+            icm = palette.buildICM();
+        }
     }
     
     /*
