@@ -51,8 +51,7 @@ public class DefaultLayout extends JPanel {
             imageHeight+=8;
         }
         if(redraw){
-            IndexColorModel icm = tiles[0].getPalette().buildICM();
-            currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_INDEXED, icm);
+            currentImage = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_INT_ARGB);
             Graphics graphics = currentImage.getGraphics();
             int i=0;
             int j=0;
@@ -97,7 +96,7 @@ public class DefaultLayout extends JPanel {
     private BufferedImage resize(BufferedImage image){
         if (displaySize == 1)
             return image;
-        BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_BYTE_INDEXED, (IndexColorModel)image.getColorModel());
+        BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
         Graphics g = newImage.getGraphics();
         g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
         g.dispose();

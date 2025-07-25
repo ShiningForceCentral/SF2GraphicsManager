@@ -91,23 +91,6 @@ public class RawImageManager {
         return tiles;                
     }
     
-    private static Color[] buildColors(IndexColorModel icm){
-        Color[] colors = new Color[16];
-        if(icm.getMapSize()>16){
-            LOG.warning("com.sfc.sf2.graphics.io.ImageManager.buildColors() - PNG FORMAT HAS MORE THAN 16 INDEXED COLORS : "+icm.getMapSize());
-        }
-        byte[] reds = new byte[icm.getMapSize()];
-        byte[] greens = new byte[icm.getMapSize()];
-        byte[] blues = new byte[icm.getMapSize()];
-        icm.getReds(reds);
-        icm.getGreens(greens);
-        icm.getBlues(blues);
-        for(int i=0;i<16;i++){
-            colors[i] = new Color((int)(reds[i]&0xff),(int)(greens[i]&0xff),(int)(blues[i]&0xff));
-        }
-        return colors;
-    }
-    
     public static void exportImage(Tile[] tiles, String filepath, int tilesPerRow, int fileFormat){
         try {
             LOG.entering(LOG.getName(),"exportImage");
@@ -116,7 +99,7 @@ public class RawImageManager {
                 imageHeight+=8;
             }
             int imageWidth = tilesPerRow*8;
-            BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_INDEXED, tiles[0].getIcm());
+            BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_BINARY, tiles[0].getIcm());
             WritableRaster raster = image.getRaster();
             
             int[] pixels = new int[64];
