@@ -182,15 +182,15 @@
                                                       <Component id="jButton15" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" alignment="1" attributes="0">
-                                                      <Component id="jLabel2" pref="161" max="32767" attributes="0"/>
+                                                      <Component id="jLabel2" pref="146" max="32767" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField29" min="-2" pref="40" max="-2" attributes="0"/>
+                                                      <Component id="jSpinner1" min="-2" pref="61" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jButton18" min="-2" max="-2" attributes="0"/>
                                                   </Group>
@@ -214,24 +214,15 @@
                                                   <Component id="jButton15" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Group type="103" groupAlignment="3" attributes="0">
-                                                          <Component id="jTextField29" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <Group type="103" groupAlignment="3" attributes="0">
-                                                          <Component id="jButton18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jComboBox1" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                                          <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
-                                                  </Group>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="jButton18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jComboBox1" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                                  <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
+                                              <EmptySpace pref="182" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -296,12 +287,6 @@
                                         <Property name="text" type="java.lang.String" value="Tile width :"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JTextField" name="jTextField29">
-                                      <Properties>
-                                        <Property name="horizontalAlignment" type="int" value="11"/>
-                                        <Property name="text" type="java.lang.String" value="16"/>
-                                      </Properties>
-                                    </Component>
                                     <Component class="javax.swing.JComboBox" name="jComboBox1">
                                       <Properties>
                                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -323,6 +308,13 @@
                                     <Component class="javax.swing.JLabel" name="jLabel31">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Compression :"/>
+                                      </Properties>
+                                    </Component>
+                                    <Component class="javax.swing.JSpinner" name="jSpinner1">
+                                      <Properties>
+                                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                          <SpinnerModel initial="16" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                        </Property>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
@@ -2001,6 +1993,10 @@
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jComboBox7" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel54" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jSpinner2" min="-2" pref="61" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -2013,6 +2009,10 @@
                                           <Component id="jComboBox7" alignment="2" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel7" alignment="2" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckBox1" alignment="2" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="2" groupAlignment="3" attributes="0">
+                                              <Component id="jLabel54" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jSpinner2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
@@ -2050,6 +2050,21 @@
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>
                               </Events>
+                            </Component>
+                            <Component class="javax.swing.JSpinner" name="jSpinner2">
+                              <Properties>
+                                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                  <SpinnerModel initial="16" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                </Property>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSpinner2StateChanged"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="jLabel54">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Tiles per row :"/>
+                              </Properties>
                             </Component>
                           </SubComponents>
                         </Container>
