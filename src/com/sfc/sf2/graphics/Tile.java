@@ -80,6 +80,7 @@ public class Tile extends JPanel {
 
     public BufferedImage getIndexedColorImage(){
         if(indexedColorImage==null){
+            if (icm == null) icm = palette.buildICM();
             indexedColorImage = new BufferedImage(PIXEL_WIDTH, PIXEL_HEIGHT, BufferedImage.TYPE_BYTE_INDEXED, icm);
             byte[] data = ((DataBufferByte)(indexedColorImage.getRaster().getDataBuffer())).getData();
             int width = indexedColorImage.getWidth();
@@ -94,6 +95,7 @@ public class Tile extends JPanel {
     
     public void clearIndexedColorImage() {
         indexedColorImage = null;
+        icm = null;
     }
     
     public void drawIndexedColorPixels(BufferedImage image, int[][] pixels, int x, int y){
