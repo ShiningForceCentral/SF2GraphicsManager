@@ -7,7 +7,6 @@ package com.sfc.sf2.graphics.io;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.palette.Palette;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
@@ -48,7 +47,7 @@ public class RawImageManager {
             BufferedImage img = ImageIO.read(path.toFile());
             ColorModel cm = img.getColorModel();
             if(!(cm instanceof IndexColorModel)){
-                LOG.warning("PNG FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
+                LOG.warning("IMAGE FORMAT ERROR : COLORS ARE NOT INDEXED AS EXPECTED.");
             }else{
                 IndexColorModel icm = (IndexColorModel)cm;
                 String filename = path.getFileName().toString();
@@ -59,7 +58,7 @@ public class RawImageManager {
                 int imageWidth = img.getWidth();
                 int imageHeight = img.getHeight();
                 if(imageWidth%8!=0 || imageHeight%8!=0){
-                    LOG.warning("PNG FORMAT WARNING : DIMENSIONS ARE NOT MULTIPLES OF 8. (8 pixels per tile)");
+                    LOG.warning("IMAGE FORMAT WARNING : DIMENSIONS ARE NOT MULTIPLES OF 8. (8 pixels per tile)");
                 }else{
                     importedImageTileWidth = imageWidth/8;
                     tiles = new Tile[(imageWidth/8)*(imageHeight/8)];
@@ -104,14 +103,16 @@ public class RawImageManager {
             
             int[] pixels = new int[64];
             for(int t = 0; t < tiles.length; t++) {
-                for(int j=0;j<8;j++){
-                    for(int i=0;i<8;i++){
-                        pixels[i+j*8] = tiles[t].getPixels()[i][j];
+                if (tiles[t] != null) {
+                    for(int j=0;j<8;j++){
+                        for(int i=0;i<8;i++){
+                            pixels[i+j*8] = tiles[t].getPixels()[i][j];
+                        }
                     }
+                    int x = t%tilesPerRow*8;
+                    int y = t/tilesPerRow*8;
+                    raster.setPixels(x, y, 8, 8, pixels);
                 }
-                int x = t%tilesPerRow*8;
-                int y = t/tilesPerRow*8;
-                raster.setPixels(x, y, 8, 8, pixels);
             }
             exportImage(image, filepath, tilesPerRow, fileFormat);
         } catch (Exception ex) {
