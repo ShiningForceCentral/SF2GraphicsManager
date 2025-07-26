@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
@@ -37,10 +36,15 @@ public class DefaultLayout extends JPanel {
     }
     
     public BufferedImage buildImage(){
-        if(redraw){
-            currentImage = buildImage(this.tiles,this.tilesPerRow);
-            setSize(currentImage.getWidth(), currentImage.getHeight());
-            if (showGrid) { drawGrid(currentImage); }
+        if (redraw) {
+            if (tiles == null) {
+                currentImage = null;
+            } else {
+                currentImage = buildImage(this.tiles,this.tilesPerRow);
+                setSize(currentImage.getWidth(), currentImage.getHeight());
+                if (showGrid) { drawGrid(currentImage); }
+            }
+            redraw = false;
         }
         return currentImage;
     }
@@ -108,7 +112,7 @@ public class DefaultLayout extends JPanel {
         return new Dimension(getWidth(), getHeight());
     }
     
-        public Tile[] getTiles() {
+    public Tile[] getTiles() {
         return tiles;
     }
 
