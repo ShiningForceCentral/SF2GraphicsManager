@@ -252,6 +252,13 @@ public class Tile extends JPanel {
         }
         return true;        
     }
+    
+    public static Tile EmptyTile(Palette palette) {
+        Tile emptyTile = new Tile();
+        emptyTile.setPalette(palette);
+        emptyTile.setPixels(new int[8][8]);
+        return emptyTile;
+    }
 
     public IndexColorModel getIcm() {
         return icm;
@@ -268,6 +275,4 @@ public class Tile extends JPanel {
     public void setOccurrences(int occurrences) {
         this.occurrences = occurrences;
     }
-    
-    
 }
