@@ -23,7 +23,6 @@ public class Tile extends JPanel {
     
     private int id;
     private Palette palette;
-    private IndexColorModel icm;
     private int[][] pixels = new int[PIXEL_HEIGHT][PIXEL_WIDTH];
     private BufferedImage indexedColorImage = null;
     
@@ -54,33 +53,19 @@ public class Tile extends JPanel {
 
     public void setPalette(Palette palette) {
         this.palette = palette;
-        icm = null;
-        if (palette != null) {
-            ensureUniqueTransparencyColor(palette);
-            icm = palette.buildICM();
-        }
     }
-    
-    /*
-        Managing edge case of transparent color being identical to an opaque color in the palette,
-        preventing image rendering to use opaque color where needed.
-        In such case, now applying standard magenta as transparency color.
-    */
-    private void ensureUniqueTransparencyColor(Palette palette){
-        Color[] colors = palette.getColors();
-        for(int i=1;i<colors.length;i++){
-            if(colors[0].getRed()==colors[i].getRed()
-                    && colors[0].getGreen()==colors[i].getGreen()
-                    && colors[0].getBlue()==colors[i].getBlue()
-                    ){
-                colors[0] = new Color(0xFF00FF, true);
-            }
+
+    public IndexColorModel getIcm() {
+        if (palette == null) {
+            return null;
+        } else {
+            return palette.getIcm();
         }
     }
 
     public BufferedImage getIndexedColorImage(){
         if(indexedColorImage==null){
-            if (icm == null) icm = palette.buildICM();
+            IndexColorModel icm = palette.getIcm();
             indexedColorImage = new BufferedImage(PIXEL_WIDTH, PIXEL_HEIGHT, BufferedImage.TYPE_BYTE_INDEXED, icm);
             byte[] data = ((DataBufferByte)(indexedColorImage.getRaster().getDataBuffer())).getData();
             int width = indexedColorImage.getWidth();
@@ -95,7 +80,6 @@ public class Tile extends JPanel {
     
     public void clearIndexedColorImage() {
         indexedColorImage = null;
-        icm = null;
     }
     
     public void drawIndexedColorPixels(BufferedImage image, int[][] pixels, int x, int y){
@@ -132,36 +116,14 @@ public class Tile extends JPanel {
     public void setPixel(int x, int y, int colorIndex){
         this.pixels[x][y] = colorIndex;
     }
-    
-//    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);   
-//        g.drawImage(getImage(), 0, 0, this);       
-//    }    
-    
-//    public BufferedImage getImage(){
-//        BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_BYTE_INDEXED, icm);
-//        WritableRaster wr = image.getRaster();
-//        Graphics2D g2d = image.createGraphics();
-//        g2d.setPaintMode();
-//        for(int y=0;y<pixels.length;y++){
-//            for(int x=0;x<pixels[y].length;x++){
-//                int colorIndex = pixels[x][y];
-//                    Color color = palette[colorIndex];
-//                    /*int rgbValue = color.getRGB();
-//                    image.setRGB(x,y,rgbValue);*/
-//                    /*int[] pixel = new int[4];
-//                    pixel[0] = color.getRed();
-//                    pixel[1] = color.getGreen();
-//                    pixel[2] = color.getBlue();
-//                    pixel[3] = color.getAlpha();
-//                    wr.setPixel(x, y, pixel);*/
-//                    g2d.setColor(color);
-//                    g2d.drawRect(x, y, 1, 1);
-//            }
-//        } 
-//        return image;        
-//    }    
+
+    public int getOccurrences() {
+        return occurrences;
+    }
+
+    public void setOccurrences(int occurrences) {
+        this.occurrences = occurrences;
+    }
     
     public static Tile vFlip(Tile tile){
         Tile flippedTile = new Tile();
@@ -258,21 +220,5 @@ public class Tile extends JPanel {
         emptyTile.setPalette(palette);
         emptyTile.setPixels(new int[8][8]);
         return emptyTile;
-    }
-
-    public IndexColorModel getIcm() {
-        return icm;
-    }
-
-    public void setIcm(IndexColorModel icm) {
-        this.icm = icm;
-    }
-
-    public int getOccurrences() {
-        return occurrences;
-    }
-
-    public void setOccurrences(int occurrences) {
-        this.occurrences = occurrences;
     }
 }
