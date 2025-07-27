@@ -6,7 +6,6 @@
 package com.sfc.sf2.graphics;
 
 import com.sfc.sf2.palette.Palette;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.IndexColorModel;
@@ -213,6 +212,17 @@ public class Tile extends JPanel {
             }
         }
         return true;        
+    }
+    
+    private Tile cloneTile() {
+        Tile newTile = new Tile();
+        newTile.setId(getId());
+        newTile.setPalette(getPalette());
+        newTile.setPixels(getPixels());
+        newTile.setHighPriority(isHighPriority());
+        newTile.sethFlip(ishFlip());
+        newTile.setvFlip(isvFlip());
+        return newTile;
     }
     
     public static Tile EmptyTile(Palette palette) {
