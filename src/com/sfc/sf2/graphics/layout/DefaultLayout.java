@@ -37,7 +37,7 @@ public class DefaultLayout extends JPanel {
     
     public BufferedImage buildImage(){
         if (redraw) {
-            if (tiles == null) {
+            if (tiles == null || tiles.length == 0) {
                 currentImage = null;
             } else {
                 currentImage = buildImage(this.tiles,this.tilesPerRow);
