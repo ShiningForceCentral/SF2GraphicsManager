@@ -225,6 +225,20 @@ public class Tile extends JPanel {
         return newTile;
     }
     
+    public boolean isTileEmpty() {
+        if (pixels == null) {
+            return true;
+        }
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if (pixels[i][j] > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
     public static Tile EmptyTile(Palette palette) {
         Tile emptyTile = new Tile();
         emptyTile.setPalette(palette);

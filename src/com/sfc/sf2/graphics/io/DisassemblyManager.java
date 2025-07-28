@@ -35,7 +35,7 @@ public class DisassemblyManager {
     
     public static Tile[] importDisassembly(String filePath, Palette palette, int compression){
         LOG.entering(LOG.getName(),"importDisassembly");
-        Tile[] tiles = DisassemblyManager.parseGraphics(filePath, palette, compression);        
+        Tile[] tiles = DisassemblyManager.parseGraphics(filePath, palette, compression);
         LOG.exiting(LOG.getName(),"importDisassembly");
         return tiles;
     }
@@ -44,12 +44,12 @@ public class DisassemblyManager {
         LOG.entering(LOG.getName(),"exportDisassembly");
         DisassemblyManager.produceGraphics(tiles, compression);
         DisassemblyManager.writeFiles(filePath, compression);
-        LOG.exiting(LOG.getName(),"exportDisassembly");        
+        LOG.exiting(LOG.getName(),"exportDisassembly");
     }    
     
     private static Tile[] parseGraphics(String filePath, Palette palette, int compression){
         LOG.entering(LOG.getName(),"parseGraphics");
-        Tile[] tiles = null;       
+        Tile[] tiles = null;
         try{
             Path path = Paths.get(filePath);
             byte[] data = Files.readAllBytes(path);
@@ -63,11 +63,10 @@ public class DisassemblyManager {
                 case GraphicsManager.COMPRESSION_STACK:
                     tiles = new StackGraphicsDecoder().decodeStackGraphics(data, palette);
                     break;
-                
             }
         }catch(Exception e){
              LOG.throwing(LOG.getName(),"parseGraphics", e);
-        } 
+        }
         LOG.exiting(LOG.getName(),"parseGraphics");
         return tiles;
     }
