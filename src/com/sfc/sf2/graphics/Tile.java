@@ -126,6 +126,7 @@ public class Tile extends JPanel {
     
     public static Tile vFlip(Tile tile){
         Tile flippedTile = new Tile();
+        flippedTile.setId(tile.getId());
         flippedTile.setHighPriority(tile.isHighPriority());
         flippedTile.sethFlip(tile.ishFlip());
         flippedTile.setvFlip(!tile.isvFlip());
@@ -140,6 +141,7 @@ public class Tile extends JPanel {
     
     public static Tile hFlip(Tile tile){
         Tile flippedTile = new Tile();
+        flippedTile.setId(tile.getId());
         flippedTile.setHighPriority(tile.isHighPriority());
         flippedTile.sethFlip(!tile.ishFlip());
         flippedTile.setvFlip(tile.isvFlip());
@@ -166,6 +168,7 @@ public class Tile extends JPanel {
     
     public static Tile paletteSwap(Tile tile, Palette palette){
         Tile pltSwappedTile = new Tile();
+        pltSwappedTile.setId(tile.getId());
         pltSwappedTile.setPixels(tile.getPixels());
         pltSwappedTile.setHighPriority(tile.isHighPriority());
         pltSwappedTile.sethFlip(!tile.ishFlip());
